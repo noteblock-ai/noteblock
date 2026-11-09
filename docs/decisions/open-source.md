@@ -69,16 +69,30 @@ Open it once the release pipeline exists (`docs/decisions/release.md`), the sand
 have landed, and a secrets sweep of the history is done. A public repo with "backends run with
 your full privileges" is an invitation to write the exploit.
 
+## Update, 2026-11-09: private for now, all FSL
+
+The mirror went public on 2026-11-09 and was taken private the same day, before any launch post.
+Noteblock is a paid product first; the source is not published for now. The groundwork stays so
+opening it later is one command:
+
+- The whole repo is FSL-1.1-ALv2 (`LICENSE.md`). The separate Apache-2.0 licenses on `core/`,
+  `app/runtime/`, `cli/`, `mcp/`, `examples/` and `skills/` were dropped; FSL turns each release
+  into Apache-2.0 after two years anyway.
+- `noteblock-ai/noteblock` stays as a private mirror. `pnpm publish:oss` keeps it current
+  (squashed snapshot, `.oss-exclude`, gitleaks, the release/CI leak guard).
+- To open it: `gh repo edit noteblock-ai/noteblock --visibility public --accept-visibility-change-consequences`,
+  keep Actions off on it, and put the GitHub icon back in the landing page header.
+
 ## What to build
 
 - [x] Sweep the git history for secrets and personal data (vault contents in examples,
       process-feedback notes with session links); start the public repo from a clean squash if
       the history is not clean. Done as a mirror: `pnpm publish:oss` pushes squashed snapshots,
       minus `.oss-exclude`, to `noteblock-ai/noteblock` after a gitleaks scan.
-- [x] Split the repo or mark license boundaries: `LICENSE` (FSL) at the root, `LICENSE`
-      (Apache-2.0) in `core/`, `app/runtime/`, `cli/`, `mcp/`, `examples/`, `skills/`.
+- [x] License: `LICENSE.md` (FSL-1.1-ALv2) for the whole repo (the Apache-2.0 split was dropped
+      on 2026-11-09).
 - [ ] Publish the format as its own doc (a cleaned `docs/contract.md`) with a version number.
-- [x] `CONTRIBUTING.md` with a short CLA for the FSL-licensed app (a DCO sign-off alone does
-      not let us relicense contributions later) and a DCO for the Apache-2.0 parts.
+- [x] `CONTRIBUTING.md` with a short CLA (a DCO sign-off alone does not let us relicense
+      contributions later).
 - [ ] A template gallery: a public repo of templates, each a page folder with a license field
       in `.quire`, installed through "expand into" and marked untrusted until approved.

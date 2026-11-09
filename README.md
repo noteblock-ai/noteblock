@@ -5,8 +5,7 @@
   A local-first notes app for the Mac and Windows. Every page is a folder of HTML, so a note can grow into a tracker, a dashboard or a game, with its own data.</p>
   <p><a href="https://noteblock.ai">noteblock.ai</a> · <a href="#download">Download</a> · <a href="#build-from-source">Build from source</a> · <a href="#self-host">Self-host</a></p>
   <p>
-    <a href="LICENSE.md"><img src="https://img.shields.io/badge/app-FSL--1.1--ALv2-blue.svg" alt="App license: FSL-1.1-ALv2"></a>
-    <a href="core/LICENSE"><img src="https://img.shields.io/badge/format%20%26%20CLI-Apache--2.0-blue.svg" alt="Format and CLI license: Apache-2.0"></a>
+    <a href="LICENSE.md"><img src="https://img.shields.io/badge/license-FSL--1.1--ALv2-blue.svg" alt="License: FSL-1.1-ALv2"></a>
     <img src="https://img.shields.io/badge/platform-macOS%20%7C%20Windows-lightgrey.svg" alt="macOS and Windows">
   </p>
 </div>
@@ -113,5 +112,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). Run `pnpm check` before opening a pull r
 
 ## License
 
-The page format, runtime, CLI, MCP server, examples and skills are [Apache-2.0](core/LICENSE).
-The desktop app is [FSL-1.1-ALv2](LICENSE.md): free to use, read and change for anything except a competing commercial product, and each release becomes Apache-2.0 two years after it ships.
+[FSL-1.1-ALv2](LICENSE.md), the Functional Source License. You can use, read, change and self-host Noteblock for anything except a competing commercial product. Each release becomes Apache-2.0 two years after it ships.
