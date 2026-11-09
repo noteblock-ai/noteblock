@@ -1,0 +1,10 @@
+{
+  "id": "bl5sd8gq3k",
+  "entry": "dist/index.html",
+  "source": "index.html",
+  "build": "pnpm install --prefer-offline --silent && pnpm exec vite build --logLevel warn",
+  "renderer": "view",
+  "embed": {
+    "height": 560
+  }
+}

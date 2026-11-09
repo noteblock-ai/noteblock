@@ -1,0 +1,7 @@
+{
+  "id": "ft7mq2zp9c",
+  "entry": "dist/index.html",
+  "source": "index.html",
+  "renderer": "view",
+  "build": "pnpm install --prefer-offline --silent && pnpm exec vite build --logLevel warn"
+}

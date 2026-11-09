@@ -1,0 +1,1 @@
+export{i as gameEndpoint}from"./App-BdpMrWue.js";

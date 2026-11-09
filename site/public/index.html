@@ -1,0 +1,1179 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Noteblock — notes that are web apps</title>
+<meta name="description" content="Noteblock is a notes app for Mac where every page is a folder of plain HTML, CSS and JS. Write like a notebook, build like the web, publish with one click.">
+<link rel="canonical" href="https://noteblock.ai/">
+<meta name="theme-color" content="#ffffff">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Noteblock">
+<meta property="og:url" content="https://noteblock.ai/">
+<meta property="og:title" content="Noteblock — notes that are web apps">
+<meta property="og:description" content="A notes app for Mac where every page is a folder of plain files. Write like a notebook, build like the web.">
+<meta property="og:image" content="https://noteblock.ai/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Noteblock: Notes that are web apps.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Noteblock — notes that are web apps">
+<meta name="twitter:description" content="A notes app for Mac where every page is a folder of plain files. Write like a notebook, build like the web.">
+<meta name="twitter:image" content="https://noteblock.ai/og.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Noteblock","operatingSystem":"macOS 13 or later","applicationCategory":"ProductivityApplication","url":"https://noteblock.ai/","downloadUrl":"https://noteblock.ai/download","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+<style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<!-- Geist and Geist Mono are served from /fonts (variable woff2, Latin + Latin Extended, from
+     Google Fonts v5) and preloaded, so the text is in Geist on the first paint instead of
+     swapping in a moment later and shifting the centered headline. -->
+<link rel="preload" href="/fonts/geist-latin-v5.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/geist-mono-latin-v5.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face { font-family: "Geist"; font-style: normal; font-weight: 100 900; font-display: swap; src: url(/fonts/geist-latin-ext-v5.woff2) format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "Geist"; font-style: normal; font-weight: 100 900; font-display: swap; src: url(/fonts/geist-latin-v5.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Geist Mono"; font-style: normal; font-weight: 100 900; font-display: swap; src: url(/fonts/geist-mono-latin-ext-v5.woff2) format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "Geist Mono"; font-style: normal; font-weight: 100 900; font-display: swap; src: url(/fonts/geist-mono-latin-v5.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+</style>
+<style>
+/* Layout: Dia-style centered hero, then one sticky app window that the scroll types into. Light only, like the app. */
+:root {
+  --bg: #ffffff;
+  --side: #f8f9fb;
+  --raised: #f3f4f6;
+  --line: #e4e6ea;
+  --ink: #15171c;
+  --muted: #5b6270;
+  --faint: #8a909c;
+  --accent: #3451d1;
+  --accent-soft: #eef1fd;
+  --accent-ink: #2a43b0;
+  --sel: #e8ebf3;
+  --live: #1f9d55;
+  --term: #15171c;
+  --term-ink: #e6e8ee;
+  --term-dim: #8a909c;
+  --code-tag: #116329;
+  --code-attr: #0550ae;
+  --code-str: #0a3069;
+  --code-punct: #8a909c;
+  --font: "Geist", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+
+.wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+/* ---------------- nav */
+.nav {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+  background: rgba(255,255,255,.86);
+  backdrop-filter: saturate(1.4) blur(12px);
+  -webkit-backdrop-filter: saturate(1.4) blur(12px);
+}
+.nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 17px; letter-spacing: -0.01em; text-decoration: none; }
+.wordmark { font-weight: 600; font-size: 19px; letter-spacing: -0.04em; color: var(--ink); line-height: 1; }
+.wordmark span { color: #9aa0ab; }
+.mark { width: 22px; height: 22px; border-radius: 6px; background: var(--ink); display: grid; place-items: center; }
+.mark svg { width: 13px; height: 13px; }
+.nav-links { display: flex; align-items: center; gap: 24px; font-size: 14px; color: var(--muted); }
+.nav-links a { text-decoration: none; }
+.nav-links a:hover { color: var(--ink); }
+.nav-links .gh { display: flex; padding: 4px; margin-right: -8px; border-radius: 6px; color: var(--muted); }
+.nav-links .gh svg { display: block; }
+.btn-sm { background: var(--ink); color: #fff !important; padding: 8px 14px; border-radius: 999px; font-weight: 500; }
+@media (max-width: 560px) { .nav-links .hide-sm { display: none; } }
+
+/* ---------------- hero */
+.hero { text-align: center; padding-block: 88px 56px; }
+.hero h1 {
+  margin: 0 auto;
+  max-width: 14ch;
+  font-size: clamp(44px, 8.4vw, 104px);
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+  font-weight: 600;
+  text-wrap: balance;
+}
+.hero h1 .soft { color: var(--faint); }
+.hero p {
+  margin: 24px auto 0;
+  max-width: 34rem;
+  font-size: clamp(17px, 2vw, 20px);
+  color: var(--muted);
+  text-wrap: balance;
+}
+.cta { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 36px; }
+.dl {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--ink); color: #fff; text-decoration: none;
+  font-weight: 500; font-size: 17px;
+  padding: 15px 26px; border-radius: 999px;
+  transition: transform .15s ease, background .15s ease;
+}
+.dl:hover { background: #2a2d35; transform: translateY(-1px); }
+.dl svg { width: 18px; height: 18px; }
+.cta small { color: var(--faint); font-size: 13px; }
+
+/* ---------------- demo: sticky window */
+.demo { position: relative; height: calc(20.3 * 95vh + 100vh); }
+/* Pinned below the viewer's top inset and the nav, sized to what's left of the screen. */
+.stage {
+  position: sticky; top: env(safe-area-inset-top, 0px);
+  height: calc(100vh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+  height: calc(100svh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+  display: flex; align-items: center; justify-content: center;
+  padding-block: 76px 24px;
+}
+.win {
+  position: relative;
+  width: 100%; height: 100%;
+  max-height: 760px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--bg);
+  box-shadow: 0 1px 2px rgba(21,23,28,.04), 0 24px 60px -20px rgba(21,23,28,.18);
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 236px minmax(0,1fr);
+  grid-template-rows: minmax(0,1fr);
+}
+.side { background: var(--side); border-right: 1px solid var(--line); display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+.side-top { height: 46px; display: flex; align-items: center; gap: 7px; padding: 0 14px; }
+.light { width: 12px; height: 12px; border-radius: 50%; background: #e2e4e9; }
+.vault { padding: 6px 14px 10px; display: flex; align-items: center; justify-content: space-between; }
+.vault b { font-weight: 600; font-size: 13.5px; }
+.toggle { display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--muted); }
+.switch { width: 24px; height: 14px; border-radius: 999px; background: #d5d8de; position: relative; transition: background .2s; }
+.switch::after { content: ""; position: absolute; top: 2px; left: 2px; width: 10px; height: 10px; border-radius: 50%; background: #fff; transition: transform .2s; }
+.toggle.on .switch { background: var(--accent); }
+.toggle.on .switch::after { transform: translateX(10px); }
+.tree { padding: 2px 8px; display: flex; flex-direction: column; gap: 1px; font-size: 13px; overflow: hidden; }
+.row { display: flex; align-items: center; gap: 7px; padding: 5px 8px; border-radius: 6px; color: var(--muted); white-space: nowrap; transition: background .4s ease, color .2s; }
+.row svg { width: 14px; height: 14px; flex: none; color: var(--faint); }
+.row.sel { background: var(--sel); color: var(--ink); }
+.row.new { background: var(--accent-soft); color: var(--accent-ink); }
+.row.file { padding-left: 30px; font-family: var(--mono); font-size: 11.5px; }
+.row.folder { color: var(--faint); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; padding-top: 14px; }
+.row[hidden] { display: none !important; }
+
+.main { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+.bar { height: 46px; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 10px; padding: 0 14px; font-size: 13px; }
+.crumbs { color: var(--muted); flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.crumbs b { color: var(--ink); font-weight: 500; }
+.pill { border: 1px solid var(--line); border-radius: 7px; padding: 4px 10px; color: var(--muted); font-size: 12.5px; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; transition: all .2s; }
+.pill svg { width: 12px; height: 12px; }
+.pub.down { background: var(--raised); transform: scale(.96); }
+.pub.busy { color: var(--muted); }
+.pub.live { color: var(--live); border-color: #bfe3cd; }
+.dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.spin { width: 11px; height: 11px; border: 1.5px solid var(--line); border-top-color: var(--muted); border-radius: 50%; animation: spin .7s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.panes { flex: 1; min-height: 0; display: grid; grid-template-rows: minmax(0,1fr); grid-template-columns: minmax(0,1fr) 0fr; transition: grid-template-columns .5s cubic-bezier(.2,.7,.2,1); }
+.panes.split { grid-template-columns: minmax(0,1fr) minmax(0,.82fr); }
+.page { overflow: hidden; position: relative; min-height: 0; }
+.page-in { max-width: 600px; margin: 0 auto; padding: 44px 40px 140px; font-size: 16px; line-height: 1.65; }
+.page-in > * { margin: 0 0 14px; }
+.page-in h2 { font-size: 22px; letter-spacing: -0.02em; line-height: 1.25; margin-top: 26px; font-weight: 600; }
+.page-in ul { padding-left: 22px; }
+.page-in li { margin: 3px 0; }
+.page-in blockquote { margin-left: 0; padding-left: 14px; border-left: 2px solid var(--line); color: var(--muted); }
+.page-in .lead { font-size: 26px; letter-spacing: -0.02em; font-weight: 600; line-height: 1.25; }
+.caret { display: inline-block; width: 2px; height: 1.1em; background: var(--accent); vertical-align: -0.18em; margin-left: 1px; animation: blink 1.05s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.blk[hidden] { display: none !important; }
+
+.embed { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--bg); transform-origin: top center; transition: opacity .4s ease, transform .4s ease; }
+.embed.pre { opacity: 0; transform: translateY(8px) scale(.985); }
+.embed-head { display: flex; align-items: center; gap: 7px; padding: 7px 11px; border-bottom: 1px solid var(--line); font-size: 12px; color: var(--muted); background: var(--side); }
+.embed-head svg { width: 12px; height: 12px; }
+#scene { height: 270px; position: relative; background: linear-gradient(#f4f6fb, #fdfdfe); }
+#scene canvas { display: block; width: 100% !important; height: 100% !important; }
+.scene-hint { position: absolute; left: 10px; bottom: 8px; font-size: 11px; color: var(--faint); }
+
+.chat { display: flex; flex-direction: column; gap: 8px; padding: 12px; min-height: 196px; font-size: 13.5px; line-height: 1.5; }
+.msg { max-width: 82%; padding: 8px 11px; border-radius: 12px; }
+.msg.me { align-self: flex-end; background: var(--accent); color: #fff; border-bottom-right-radius: 4px; }
+.msg.bot { align-self: flex-start; background: var(--raised); border-bottom-left-radius: 4px; }
+.msg[hidden] { display: none !important; }
+.chat-in { display: flex; gap: 8px; align-items: center; border-top: 1px solid var(--line); padding: 8px 10px 8px 12px; font-size: 12.5px; color: var(--faint); }
+.chat-in span { flex: 1; }
+.chat-in i { font-style: normal; font-size: 11px; border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; }
+
+.pack { list-style: none; padding: 8px 12px !important; margin: 0; font-size: 14px; }
+.pack li { display: flex; align-items: center; gap: 10px; padding: 5px 0; }
+.box { width: 16px; height: 16px; border-radius: 4px; border: 1.5px solid #c3c7cf; display: grid; place-items: center; transition: all .2s; flex: none; }
+.box svg { width: 11px; height: 11px; opacity: 0; color: #fff; }
+.pack li.done .box { background: var(--accent); border-color: var(--accent); }
+.pack li.done .box svg { opacity: 1; }
+.pack li.done span { color: var(--faint); text-decoration: line-through; }
+
+.src { border-left: 1px solid var(--line); background: #fbfbfc; overflow: hidden; min-width: 0; display: flex; flex-direction: column; }
+.src-head { padding: 9px 14px; font-size: 11.5px; color: var(--muted); border-bottom: 1px solid var(--line); font-family: var(--mono); white-space: nowrap; }
+.src pre { margin: 0; padding: 14px; font-family: var(--mono); font-size: 11.5px; line-height: 1.7; white-space: pre-wrap; word-break: break-word; color: var(--ink); overflow: hidden; flex: 1; }
+.t { color: var(--code-tag); }
+.a { color: var(--code-attr); }
+.s { color: var(--code-str); }
+.p { color: var(--code-punct); }
+
+.term {
+  position: absolute; right: 18px; bottom: 18px; width: min(430px, calc(100% - 36px));
+  background: var(--term); color: var(--term-ink); border-radius: 10px;
+  font-family: var(--mono); font-size: 12px; line-height: 1.7;
+  box-shadow: 0 20px 50px -12px rgba(21,23,28,.45);
+  transition: opacity .35s ease, transform .35s ease; z-index: 4;
+}
+.term.off { opacity: 0; transform: translateY(14px); pointer-events: none; }
+.term-head { padding: 7px 12px; color: var(--term-dim); font-size: 11px; border-bottom: 1px solid #2a2d35; display: flex; gap: 6px; align-items: center; }
+.term-head .light { width: 9px; height: 9px; background: #3a3e48; }
+.term-body { padding: 10px 14px 12px; min-height: 120px; }
+.term-body div { white-space: pre-wrap; }
+.term .dim { color: var(--term-dim); }
+.term .ok { color: #7fd6a2; }
+
+.pop {
+  position: absolute; top: 52px; right: 12px; z-index: 5;
+  background: var(--bg); border: 1px solid var(--line); border-radius: 10px;
+  box-shadow: 0 16px 40px -14px rgba(21,23,28,.28);
+  padding: 12px 14px; font-size: 13px; width: 300px; max-width: calc(100% - 24px);
+  transition: opacity .3s ease, transform .3s ease;
+}
+.pop.off { opacity: 0; transform: translateY(-6px); pointer-events: none; }
+.pop b { display: flex; align-items: center; gap: 7px; color: var(--live); font-weight: 500; }
+.pop code { display: block; margin: 8px 0 10px; font-family: var(--mono); font-size: 11.5px; background: var(--raised); padding: 6px 8px; border-radius: 6px; color: var(--ink); overflow-wrap: anywhere; }
+.pop-actions { display: flex; gap: 8px; }
+.pop-actions span { border: 1px solid var(--line); border-radius: 6px; padding: 3px 9px; font-size: 12px; color: var(--muted); }
+
+.cursor { position: absolute; left: 0; top: 0; width: 22px; height: 22px; z-index: 6; pointer-events: none; transition: opacity .25s; will-change: transform; }
+.cursor svg { width: 22px; height: 22px; filter: drop-shadow(0 2px 3px rgba(0,0,0,.25)); transition: transform .12s; transform-origin: 3px 2px; }
+.cursor.down svg { transform: scale(.86); }
+.cursor.off { opacity: 0; }
+
+.progress { position: absolute; left: 50%; bottom: 8px; transform: translateX(-50%); font-size: 12px; color: var(--faint); display: flex; align-items: center; gap: 8px; transition: opacity .3s; }
+.progress svg { width: 14px; height: 14px; animation: nudge 1.6s ease-in-out infinite; }
+@keyframes nudge { 50% { transform: translateY(3px); } }
+
+@media (max-width: 980px) {
+  .panes.split { grid-template-columns: minmax(0,1fr) 0fr; }
+  .src { display: none; }
+}
+@media (max-width: 720px) {
+  .win { grid-template-columns: minmax(0,1fr); }
+  .side { display: none; }
+  .page-in { padding: 28px 20px 140px; }
+  .stage { padding-block: 72px 12px; }
+  .term { top: 56px; bottom: auto; }
+  .term.off { transform: translateY(-14px); }
+  .win { max-height: none; }
+  .pill.rend { display: none; }
+}
+
+.end h2 { font-size: clamp(32px, 4.6vw, 52px); letter-spacing: -0.035em; line-height: 1.05; margin: 0 0 12px; font-weight: 600; text-wrap: balance; }
+
+/* ---------------- end */
+.end { padding-block: 120px 120px; text-align: center; }
+.end p { color: var(--muted); font-size: 18px; margin: 0 auto; max-width: 30rem; }
+.foot { border-top: 1px solid var(--line); color: var(--faint); font-size: 13px; }
+.foot .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-block: 24px; }
+.foot-links { display: inline-flex; gap: 16px; }
+.foot-links a { text-underline-offset: 2px; }
+
+/* ---------------- click badge */
+.badge {
+  position: fixed; left: 50%; top: calc(env(safe-area-inset-top, 0px) + 14px); z-index: 120;
+  max-width: min(340px, calc(100vw - 32px));
+  background: #111111; color: #ffffff;
+  border-radius: 999px; padding: 8px 14px;
+  font-size: 13px; line-height: 1.4; font-weight: 500;
+  width: max-content; text-align: center;
+  box-shadow: 0 10px 30px -8px rgba(0,0,0,.45);
+  pointer-events: none; opacity: 0;
+  transform: translate(-50%, -18px) scale(.96);
+  transition: opacity .18s ease, transform .22s cubic-bezier(.2,.9,.3,1.3);
+}
+.badge.on { opacity: 1; transform: translate(-50%, 0) scale(1); }
+.badge.tall { border-radius: 14px; }
+.badge.interactive.on { pointer-events: auto; }
+.badge a { color: #ffffff; text-decoration: underline; text-underline-offset: 2px; font-weight: 600; }
+.badge svg { width: 13px; height: 13px; display: inline-block; vertical-align: -2px; margin-left: 3px; }
+
+/* ---------------- live demo */
+.live-demo {
+  position: fixed; inset: 0; z-index: 100;
+  background: var(--side);
+  display: flex; flex-direction: column; gap: 12px;
+  padding: max(12px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+}
+.live-demo[hidden] { display: none; }
+.live-bar { display: flex; align-items: center; gap: 12px; font-size: 13px; color: var(--muted); min-height: 34px; }
+.live-bar b { color: var(--ink); font-weight: 600; font-size: 14px; }
+.live-bar .grow { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.live-close { border: 1px solid var(--line); background: var(--bg); color: var(--ink); border-radius: 8px; padding: 6px 12px; font: inherit; font-size: 13px; cursor: pointer; }
+.live-close:hover { background: var(--raised); }
+.live-host { flex: 1; min-height: 0; display: flex; }
+.live-host .win { max-height: none; height: 100%; }
+html.is-live, html.is-live body { overflow: hidden; }
+.is-live .page { overflow-y: auto; }
+.is-live .src pre { overflow-y: auto; }
+.is-live .page-in:focus { outline: none; }
+.is-live .row, .is-live .toggle, .is-live .pill, .is-live .pack li, .is-live .pop-actions span { cursor: pointer; }
+.is-live .row:not(.sel):not(.folder):hover { background: rgba(21,23,28,.05); }
+.is-live .pill:hover, .is-live .pop-actions span:hover { background: var(--raised); }
+.is-live #scene { cursor: grab; touch-action: none; }
+.is-live #scene.grabbing { cursor: grabbing; }
+.chat-in input { display: none; }
+.is-live .chat-in span { display: none; }
+.is-live .chat-in input { display: block; flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font: inherit; font-size: 13px; color: var(--ink); }
+@media (max-width: 720px) { .live-bar .grow { display: none; } .live-bar b { flex: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .badge { transition: opacity .15s; }
+  .caret, .progress svg, .spin { animation: none; }
+  .embed, .term, .pop, .panes { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Noteblock home">
+      <svg width="22" height="22" viewBox="100 100 824 824" aria-hidden="true" style="flex: none; display: block"><rect x="100" y="100" width="824" height="824" rx="185" fill="#111111"></rect><g transform="translate(192 192) scale(10)"><rect x="8" y="8" width="22" height="22" rx="6" fill="#ffffff"></rect><rect x="13" y="14" width="12" height="2.5" rx="1.25" fill="#111111"></rect><rect x="13" y="19" width="12" height="2.5" rx="1.25" fill="#111111"></rect><rect x="13" y="24" width="7" height="2.5" rx="1.25" fill="#111111"></rect><rect x="34" y="8" width="22" height="22" rx="6" fill="#ffffff" fill-opacity="0.45"></rect><rect x="8" y="34" width="22" height="22" rx="6" fill="#ffffff" fill-opacity="0.45"></rect><rect x="34" y="34" width="22" height="22" rx="11" fill="#ffffff" fill-opacity="0.75"></rect></g></svg>
+      <span class="wordmark">noteblock<span>.ai</span></span>
+    </a>
+    <nav class="nav-links" aria-label="Main">
+      <a class="gh" href="https://github.com/noteblock-ai/noteblock" aria-label="GitHub"><svg viewBox="0 0 16 16" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path></svg></a>
+      <a class="btn-sm" href="/download">Download</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <h1>Notes that are <span class="soft">web&nbsp;apps.</span></h1>
+      <p>Write like it's a notebook. Build like it's the web. Every page is a folder of plain files on your Mac.</p>
+      <div class="cta" id="download">
+        <a class="dl" href="/download">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.37 12.6c-.02-2.1 1.72-3.12 1.8-3.17-.98-1.43-2.5-1.63-3.05-1.65-1.3-.13-2.53.76-3.19.76-.66 0-1.67-.74-2.75-.72-1.41.02-2.72.82-3.45 2.09-1.47 2.55-.38 6.33 1.06 8.4.7 1.01 1.54 2.15 2.63 2.11 1.06-.04 1.46-.68 2.73-.68 1.28 0 1.64.68 2.75.66 1.14-.02 1.86-1.03 2.55-2.05.8-1.17 1.13-2.31 1.15-2.37-.03-.01-2.2-.85-2.23-3.38zM14.27 6.43c.58-.71.98-1.69.87-2.67-.84.03-1.86.56-2.46 1.27-.54.62-1.01 1.62-.89 2.58.94.07 1.9-.48 2.48-1.18z"/></svg>
+          Download for Mac
+        </a>
+        <small>Free · macOS 13 or later · Apple silicon and Intel</small>
+      </div>
+    </div>
+  </section>
+
+  <section class="demo" id="demo" aria-label="Demo: a note being written">
+    <div class="stage">
+      <div class="wrap" style="height:100%;width:100%;display:flex;align-items:center">
+        <div class="win" id="win" aria-hidden="true">
+          <aside class="side">
+            <div class="side-top"><span class="light"></span><span class="light"></span><span class="light"></span></div>
+            <div class="vault"><b>My Notes</b><span class="toggle" id="srcToggle"><span class="switch"></span>Source</span></div>
+            <div class="tree" id="tree">
+              <div class="row sel" id="r-first"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 2.5h5.5L12 5v8.5H4z"/><path d="M9.5 2.5V5H12"/></svg>My first note</div>
+              <div class="row file" id="f-quire" hidden>.noteblock</div>
+              <div class="row file" id="f-index" hidden>index.html</div>
+              <div class="row" id="r-alfama" hidden><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 2l5 3v6l-5 3-5-3V5z"/><path d="M3 5l5 3 5-3M8 8v6"/></svg>Alfama in 3D</div>
+              <div class="row file" id="f-scene" hidden>scene.js</div>
+              <div class="row" id="r-chat" hidden><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 3.5h10v7H7l-3 2.5v-2.5H3z"/></svg>Trip chat</div>
+              <div class="row" id="r-pack" hidden><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="10" height="10" rx="2"/><path d="M5.5 8l2 2 3-4"/></svg>Packing list</div>
+              <div class="row"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 2.5h5.5L12 5v8.5H4z"/><path d="M9.5 2.5V5H12"/></svg>Reading list</div>
+              <div class="row"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 2.5h5.5L12 5v8.5H4z"/><path d="M9.5 2.5V5H12"/></svg>Budget</div>
+              <div class="row"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 2.5h5.5L12 5v8.5H4z"/><path d="M9.5 2.5V5H12"/></svg>Focus timer</div>
+            </div>
+          </aside>
+
+          <div class="main">
+            <div class="bar">
+              <span class="crumbs">My Notes / <b>My first note</b></span>
+              <span class="pill rend" id="rend">Noteblock editor</span>
+              <span class="pill pub" id="pub"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="5.5"/><path d="M2.5 8h11M8 2.5c1.6 1.6 1.6 9.4 0 11M8 2.5c-1.6 1.6-1.6 9.4 0 11"/></svg><span id="pubLabel">Publish</span></span>
+            </div>
+            <div class="panes" id="panes">
+              <div class="page" id="page">
+                <div class="page-in" id="pageIn">
+                  <p class="blk lead" data-b="0"></p>
+                  <p class="blk" data-b="1" hidden></p>
+                  <p class="blk" data-b="2" hidden></p>
+                  <h2 class="blk" data-b="3" hidden></h2>
+                  <ul class="blk" data-b="4" hidden><li data-b="4a"></li><li data-b="4b" hidden></li><li data-b="4c" hidden></li></ul>
+                  <blockquote class="blk" data-b="5" hidden></blockquote>
+                  <p class="blk" data-b="6" hidden></p>
+                  <div class="blk embed pre" data-b="7" id="sceneBlk" hidden>
+                    <div class="embed-head"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 2l5 3v6l-5 3-5-3V5z"/></svg>Alfama in 3D</div>
+                    <div id="scene"><span class="scene-hint">Drag to look around</span></div>
+                  </div>
+                  <p class="blk" data-b="8" hidden></p>
+                  <div class="blk embed pre" data-b="9" id="chatBlk" hidden>
+                    <div class="embed-head"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 3.5h10v7H7l-3 2.5v-2.5H3z"/></svg>Trip chat</div>
+                    <div class="chat">
+                      <div class="msg me" id="m1" hidden></div>
+                      <div class="msg bot" id="m2" hidden></div>
+                    </div>
+                    <div class="chat-in"><span>Ask about the trip…</span><input id="chatInput" placeholder="Ask about the trip…" aria-label="Ask about the trip" autocomplete="off"><i>your API key</i></div>
+                  </div>
+                  <p class="blk" data-b="10" hidden></p>
+                  <div class="blk embed pre" data-b="11" id="packBlk" hidden>
+                    <div class="embed-head"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="10" height="10" rx="2"/></svg>Packing list</div>
+                    <ul class="pack" id="pack">
+                      <li><span class="box"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M2.5 6.2l2.3 2.3 4.7-5"/></svg></span><span>Passport</span></li>
+                      <li><span class="box"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M2.5 6.2l2.3 2.3 4.7-5"/></svg></span><span>Rain shell</span></li>
+                      <li><span class="box"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M2.5 6.2l2.3 2.3 4.7-5"/></svg></span><span>Shoes for hills</span></li>
+                      <li><span class="box"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M2.5 6.2l2.3 2.3 4.7-5"/></svg></span><span>Plug adapter (type F)</span></li>
+                    </ul>
+                  </div>
+                  <p class="blk" data-b="12" hidden></p>
+                </div>
+              </div>
+              <div class="src" id="src">
+                <div class="src-head">My first note / index.html</div>
+                <pre id="code"></pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="term off" id="term">
+            <div class="term-head"><span class="light"></span><span class="light"></span><span class="light"></span>&nbsp;Terminal</div>
+            <div class="term-body" id="termBody"></div>
+          </div>
+
+          <div class="pop off" id="pop">
+            <b><span class="dot"></span>Live</b>
+            <code>my-first-note.noteblock.ai</code>
+            <div class="pop-actions"><span>Copy link</span><span>Open</span></div>
+          </div>
+
+          <div class="cursor off" id="cursor"><svg viewBox="0 0 22 22"><path d="M3 2l14 8.2-6.1 1.3L8 17.5z" fill="#15171c" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/></svg></div>
+          <div class="progress" id="hint"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M8 3v10M4 9l4 4 4-4"/></svg>Scroll to keep writing</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="end">
+    <div class="wrap">
+      <h2>Start with a note.</h2>
+      <p>Your vault is a folder. Open it in any editor, sync it however you like, and let your agents work in it.</p>
+      <div class="cta">
+        <a class="dl" href="/download">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.37 12.6c-.02-2.1 1.72-3.12 1.8-3.17-.98-1.43-2.5-1.63-3.05-1.65-1.3-.13-2.53.76-3.19.76-.66 0-1.67-.74-2.75-.72-1.41.02-2.72.82-3.45 2.09-1.47 2.55-.38 6.33 1.06 8.4.7 1.01 1.54 2.15 2.63 2.11 1.06-.04 1.46-.68 2.73-.68 1.28 0 1.64.68 2.75.66 1.14-.02 1.86-1.03 2.55-2.05.8-1.17 1.13-2.31 1.15-2.37-.03-.01-2.2-.85-2.23-3.38zM14.27 6.43c.58-.71.98-1.69.87-2.67-.84.03-1.86.56-2.46 1.27-.54.62-1.01 1.62-.89 2.58.94.07 1.9-.48 2.48-1.18z"/></svg>
+          Download for Mac
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="live-demo" id="live" hidden role="dialog" aria-modal="true" aria-label="Live demo">
+  <div class="live-bar">
+    <b>Live demo</b>
+    <span class="grow">Edit the note, flip on Source, drag the scene, ask the chat, publish. It all runs in your browser.</span>
+    <button type="button" class="live-close" id="liveClose">Close</button>
+  </div>
+  <div class="live-host" id="liveHost"></div>
+</div>
+<div class="badge" id="badge" role="status" aria-live="polite"></div>
+
+<footer class="foot"><div class="wrap"><span>Noteblock</span><span>Pages are folders. Folders are yours.</span><span class="foot-links"><a href="/pricing">Pricing</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></span></div></footer>
+
+<script>
+// Windows: the visitor's OS picks the download button (navigator.userAgentData, then the user
+// agent), the other OS gets a small "Also for …" link, and a Windows visitor's demo window wears
+// Windows' caption buttons. Linux and phones keep the Mac button, with "Also for Windows". This
+// runs synchronously before the three.js <script> below, so the first paint already has the
+// right button (waiting on latest.json or running after three.js showed the Mac one first).
+(function () {
+  var uaPlatform = navigator.userAgentData && navigator.userAgentData.platform;
+  var forced = /[?&]os=(windows|mac)\b/.exec(location.search); // ?os=windows: check the other look
+  var isWindows = forced ? forced[1] === "windows" : uaPlatform ? /windows/i.test(uaPlatform) : /Windows/.test(navigator.userAgent);
+  document.documentElement.classList.add(isWindows ? "os-win" : "os-mac");
+  var WIN_ICON = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 5.1l7.4-1v7.2H3zm8.3-1.1L21 2.6v8.7h-9.7zM3 12.6h7.4v7.3L3 18.9zm8.3 0H21v8.7l-9.7-1.3z"/></svg>';
+  var hero = document.querySelector(".hero p");
+  if (hero) hero.textContent = hero.textContent.replace("on your Mac", "on your computer");
+  document.querySelectorAll(".cta").forEach(function (cta) {
+    var dl = cta.querySelector(".dl");
+    if (!dl) return;
+    var small = cta.querySelector("small");
+    if (!small) {
+      small = document.createElement("small");
+      cta.appendChild(small);
+    }
+    var also = document.createElement("a");
+    also.className = "also";
+    if (isWindows) {
+      dl.href = "/download/windows";
+      dl.innerHTML = WIN_ICON + "Download for Windows";
+      small.textContent = "Free · Windows 10 and 11 · Intel, AMD and Arm · ";
+      also.href = "/download/mac";
+      also.textContent = "Also for Mac";
+    } else {
+      dl.href = "/download/mac";
+      if (!small.textContent) small.textContent = "Free · macOS 13 or later · ";
+      else small.textContent += " · ";
+      also.href = "/download/windows";
+      also.textContent = "Also for Windows";
+    }
+    small.appendChild(also);
+  });
+  if (!isWindows) return;
+  // The demo window: Windows' minimize / maximize / close at the top right, no traffic lights.
+  var win = document.getElementById("win");
+  if (win && !win.querySelector(".caps")) {
+    var caps = document.createElement("div");
+    caps.className = "caps";
+    caps.setAttribute("aria-hidden", "true");
+    ['<path d="M0 5h10"/>', '<rect x=".5" y=".5" width="9" height="9"/>', '<path d="M0 0l10 10M10 0L0 10"/>'].forEach(function (d) {
+      var b = document.createElement("span");
+      b.innerHTML = '<svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1">' + d + "</svg>";
+      caps.appendChild(b);
+    });
+    win.appendChild(caps);
+  }
+})();
+</script>
+<style>
+.cta small .also { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.cta small .also:hover { color: var(--ink, #15171c); }
+.os-win .win { border-radius: 8px; }
+.os-win .win .side-top .light { visibility: hidden; }
+.os-win .win .bar { padding-right: 120px; }
+.os-win .win .caps { position: absolute; top: 0; right: 0; display: flex; z-index: 3; color: #15171c; }
+.os-win .win .caps span { width: 38px; height: 32px; display: flex; align-items: center; justify-content: center; }
+.os-win .win .caps span:last-child:hover { background: #e81123; color: #fff; }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" integrity="sha512-dLxUelApnYxpLt6K2iomGngnHO83iUvZytA3YjDUCjT0HDOHKXnVYdf3hU4JjM8uEhxf9nD1/ey98U3t2vZ0qQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+(() => {
+  const $ = (s) => document.querySelector(s);
+  const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
+  const ramp = (x, a, b) => clamp((x - a) / (b - a));
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const ease = (t) => t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+  const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+  // ---- the note, as typed blocks. Text runs: [text, bold?]. [start, end] in beats.
+  const BEATS = 20.3;
+  // The note's timeline below is written in "story" beats. Two stretches of scroll are
+  // inserted around it: the mouse turning on Source (1.6 beats, with the note paused), and
+  // the drag through the 3D scene, played at half speed.
+  const SRC_AT = 1.25, SRC_LEN = 1.6, DRAG_AT = 5.15, DRAG_LEN = 2.25;
+  function story(n) {
+    if (n < SRC_AT) return n;
+    if (n < SRC_AT + SRC_LEN) return SRC_AT;
+    const m = n - SRC_LEN;
+    if (m < DRAG_AT) return m;
+    if (m < DRAG_AT + DRAG_LEN * 2) return DRAG_AT + (m - DRAG_AT) / 2;
+    return m - DRAG_LEN;
+  }
+  const blocks = [
+    { b: "0", tag: "p", runs: [["This is a note"]], at: [-1, -1] },
+    { b: "1", tag: "p", runs: [["…but it's just HTML."]], at: [0.3, 1.2] },
+    { b: "2", tag: "p", runs: [["You can do stuff like this:"]], at: [1.8, 2.4] },
+    { b: "3", tag: "h2", runs: [["Lisbon, May 12–18"]], at: [2.4, 2.8] },
+    { b: "4a", tag: "li", runs: [["Fly out", 1], [" Tuesday morning"]], at: [2.85, 3.15] },
+    { b: "4b", tag: "li", runs: [["Ride the ", 0], ["28 tram", 1], [" to Graça"]], at: [3.15, 3.5] },
+    { b: "4c", tag: "li", runs: [["Pastéis at Manteigaria"]], at: [3.5, 3.8] },
+    { b: "5", tag: "blockquote", runs: [["Pack light. Hills everywhere."]], at: [3.85, 4.25] },
+    { b: "6", tag: "p", runs: [["…or this."]], at: [4.5, 4.85] },
+    { b: "7", embed: "Alfama in 3D", at: [4.9, 5.1] },
+    { b: "8", tag: "p", runs: [["You can do AI, if you want."]], at: [7.5, 8.0] },
+    { b: "9", embed: "Trip chat", at: [8.0, 8.2] },
+    { b: "10", tag: "p", runs: [["Made something with Claude? Keep it here instead of losing it in a chat."]], at: [10.0, 10.8] },
+    { b: "11", embed: "Packing list", at: [12.3, 12.5] },
+    { b: "12", tag: "p", runs: [["Share it when it's ready."]], at: [13.6, 14.1] },
+  ];
+  const els = {};
+  for (const bl of blocks) {
+    bl.el = document.querySelector(`[data-b="${bl.b}"]`);
+    bl.len = bl.runs ? bl.runs.reduce((n, r) => n + r[0].length, 0) : 0;
+  }
+  const caret = '<span class="caret"></span>';
+
+  function runsHTML(runs, n, forCode) {
+    let out = "";
+    for (const [t, bold] of runs) {
+      if (n <= 0) break;
+      const s = esc(t.slice(0, n));
+      n -= t.length;
+      if (bold) out += forCode ? `<span class="p">&lt;</span><span class="t">b</span><span class="p">&gt;</span>${s}${n >= 0 ? '<span class="p">&lt;/</span><span class="t">b</span><span class="p">&gt;</span>' : ""}` : `<b>${s}</b>`;
+      else out += s;
+    }
+    return out;
+  }
+  const open = (tag, attrs = "") => `<span class="p">&lt;</span><span class="t">${tag}</span>${attrs}<span class="p">&gt;</span>`;
+  const close = (tag) => `<span class="p">&lt;/</span><span class="t">${tag}</span><span class="p">&gt;</span>`;
+
+  // ---- elements
+  const win = $("#win"), page = $("#page"), pageIn = $("#pageIn"), code = $("#code");
+  const panes = $("#panes"), srcToggle = $("#srcToggle"), rend = $("#rend");
+  const pub = $("#pub"), pubLabel = $("#pubLabel"), pop = $("#pop");
+  const term = $("#term"), termBody = $("#termBody"), cursor = $("#cursor"), hint = $("#hint");
+  const demo = $("#demo");
+  const m1 = $("#m1"), m2 = $("#m2");
+  const packItems = [...document.querySelectorAll("#pack li")];
+  const show = (id, on) => { const e = document.getElementById(id); if (e) e.hidden = !on; };
+  const flag = (id, cls, on) => document.getElementById(id).classList.toggle(cls, on);
+
+  const Q1 = "What should we pack for Lisbon in May?";
+  const A1 = "Light layers and a rain shell. Evenings by the river get cool, and the hills are steep, so bring shoes with grip.";
+  const TERM = [
+    { at: [11.0, 11.7], html: (n) => `<span class="dim">$</span> ${esc('claude "add a packing list to my trip note"'.slice(0, n))}`, len: 42 },
+    { at: [11.8, 11.9], html: () => `<span class="dim">  quire new "Packing list"</span>` },
+    { at: [11.95, 12.05], html: () => `<span class="dim">  quire edit "My first note" -m "Embed packing list"</span>` },
+    { at: [12.1, 12.2], html: () => `<span class="dim">  quire done "My first note"</span>` },
+    { at: [12.25, 12.3], html: () => `<span class="ok">✓</span> Added Packing list to My first note` },
+  ];
+
+  // ---- 3D scene
+  let three = null, orbit = 0.6;
+  function initScene() {
+    if (three || !window.THREE) return;
+    const host = $("#scene");
+    const w = host.clientWidth || 500, h = host.clientHeight || 270;
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
+    renderer.setSize(w, h);
+    host.prepend(renderer.domElement);
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.Fog(0xf6f7fb, 18, 34);
+    const cam = new THREE.PerspectiveCamera(38, w / h, 0.1, 100);
+    scene.add(new THREE.HemisphereLight(0xffffff, 0xc9d2e6, 0.85));
+    const sun = new THREE.DirectionalLight(0xfff1dc, 0.75);
+    sun.position.set(6, 10, 4);
+    scene.add(sun);
+
+    const flat = (c) => new THREE.MeshLambertMaterial({ color: c, flatShading: true });
+    // a hillside: terraces stepping up
+    const hill = new THREE.Group();
+    for (let i = 0; i < 5; i++) {
+      const g = new THREE.Mesh(new THREE.BoxGeometry(16, 0.6, 2.6), flat(0xe9e4da));
+      g.position.set(0, i * 0.6 - 0.3, -i * 2.6 + 4);
+      hill.add(g);
+    }
+    scene.add(hill);
+    const walls = [0xf3d36b, 0xf2b8b0, 0xffffff, 0x9fc3e7, 0xf6e7c8, 0xe58f6a, 0xb7d7b0];
+    let k = 0;
+    for (let row = 0; row < 5; row++) {
+      for (let x = -6.5; x <= 6.5; x += 1.9) {
+        if ((row + Math.round(x)) % 4 === 0 && row === 0) continue;
+        const hgt = 1 + ((k * 37) % 5) * 0.28;
+        const house = new THREE.Group();
+        const body = new THREE.Mesh(new THREE.BoxGeometry(1.5, hgt, 1.6), flat(walls[k % walls.length]));
+        body.position.y = hgt / 2;
+        house.add(body);
+        const roof = new THREE.Mesh(new THREE.ConeGeometry(1.2, 0.55, 4), flat(0xc8643b));
+        roof.rotation.y = Math.PI / 4;
+        roof.position.y = hgt + 0.27;
+        house.add(roof);
+        for (let wy = 0.45; wy < hgt - 0.2; wy += 0.5) {
+          const win = new THREE.Mesh(new THREE.BoxGeometry(0.28, 0.26, 0.02), flat(0x3a4152));
+          win.position.set(((k + wy * 10) % 2 ? -0.35 : 0.35), wy, 0.81);
+          house.add(win);
+        }
+        house.position.set(x + (row % 2) * 0.9, row * 0.6, -row * 2.6 + 4);
+        hill.add(house);
+        k++;
+      }
+    }
+    // the yellow tram on the front street
+    const tram = new THREE.Group();
+    const tb = new THREE.Mesh(new THREE.BoxGeometry(2.6, 1.1, 1), flat(0xf2c230));
+    tb.position.y = 0.75;
+    tram.add(tb);
+    const band = new THREE.Mesh(new THREE.BoxGeometry(2.62, 0.18, 1.02), flat(0xffffff));
+    band.position.y = 0.5;
+    tram.add(band);
+    const top = new THREE.Mesh(new THREE.BoxGeometry(2.3, 0.12, 0.9), flat(0x9aa0aa));
+    top.position.y = 1.36;
+    tram.add(top);
+    for (let i = -1; i <= 1; i++) {
+      const wn = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.36, 1.03), flat(0x2f3644));
+      wn.position.set(i * 0.75, 0.95, 0);
+      tram.add(wn);
+    }
+    tram.position.set(-2, 0, 6.4);
+    scene.add(tram);
+    const street = new THREE.Mesh(new THREE.BoxGeometry(18, 0.2, 2.2), flat(0xcfd3da));
+    street.position.set(0, -0.1, 6.4);
+    scene.add(street);
+    const rail = new THREE.Mesh(new THREE.BoxGeometry(18, 0.04, 0.06), flat(0x8a909c));
+    rail.position.set(0, 0.02, 6.1);
+    scene.add(rail);
+    const rail2 = rail.clone();
+    rail2.position.z = 6.7;
+    scene.add(rail2);
+    // the river
+    const river = new THREE.Mesh(new THREE.BoxGeometry(40, 0.1, 14), flat(0x9fb6e0));
+    river.position.set(0, -0.4, 14.5);
+    scene.add(river);
+
+    three = { renderer, scene, cam, tram, host, w, h };
+    window.addEventListener("resize", () => {
+      const nw = host.clientWidth, nh = host.clientHeight;
+      if (!nw) return;
+      renderer.setSize(nw, nh);
+      cam.aspect = nw / nh;
+      cam.updateProjectionMatrix();
+    });
+  }
+  function drawScene(t) {
+    if (!three) return;
+    const { renderer, scene, cam, tram, host } = three;
+    if (host.clientWidth && Math.abs(host.clientWidth - three.w) > 2) {
+      three.w = host.clientWidth; three.h = host.clientHeight;
+      renderer.setSize(three.w, three.h);
+      cam.aspect = three.w / three.h;
+      cam.updateProjectionMatrix();
+    }
+    const r = 15, a = orbit;
+    cam.position.set(Math.sin(a) * r, 6.2, Math.cos(a) * r + 2);
+    cam.lookAt(0, 1.2, 1);
+    tram.position.x = -7 + ((t / 9000) % 1) * 14;
+    renderer.render(scene, cam);
+  }
+
+  // ---- cursor path helpers (window coords)
+  function rel(el, fx = 0.5, fy = 0.5) {
+    const wr = win.getBoundingClientRect(), r = el.getBoundingClientRect();
+    return [r.left - wr.left + r.width * fx, r.top - wr.top + r.height * fy];
+  }
+  const lerp2 = (a, b, t) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t];
+
+  // ---- per frame
+  let beat = -1, scrollY = 0;
+  function progress() {
+    const r = demo.getBoundingClientRect();
+    const span = demo.offsetHeight - window.innerHeight;
+    // The story ends just before the section does: a short held moment on the finished note.
+    return clamp(-r.top / span / 0.97) * BEATS;
+  }
+
+  // What's shown trails the scroll position and catches up at a capped speed, so a fast
+  // flick still types in steadily instead of dumping a paragraph at once.
+  let shown = null, lastNow = 0;
+  function render(now) {
+    if (live) return;
+    const target = progress();
+    const dt = Math.min(0.05, lastNow ? (now - lastNow) / 1000 : 0);
+    lastNow = now;
+    if (shown === null || reduced) shown = target;
+    else {
+      const step = (target - shown) * Math.min(1, dt * 3);
+      // At most 1.6 beats a second while the reader is near; the further behind it falls the
+      // faster it catches up, and once the window starts scrolling away it finishes quickly,
+      // so a fast scroll never leaves the demo half done.
+      const leaving = target >= BEATS;
+      const gap = Math.abs(target - shown);
+      const cap = (leaving ? 14 : 1.6 + gap * 1.2) * dt;
+      shown += Math.max(-cap * 3, Math.min(cap, step));
+    }
+    paint(shown, now);
+    requestAnimationFrame(render);
+  }
+
+  /** Draw the demo at display beat n. */
+  function paint(n, now) {
+    const x = story(n);
+    const srcClick = SRC_AT + 1.15;
+    // typing
+    let active = blocks[0];
+    for (const bl of blocks) {
+      const [a, b] = bl.at;
+      const t = a < 0 ? 1 : ramp(x, a, b);
+      const visible = a < 0 || x >= a;
+      bl.t = t;
+      if (bl.tag === "li") { bl.el.hidden = !visible; if (bl.b === "4a") bl.el.parentElement.hidden = !visible; }
+      else bl.el.hidden = !visible;
+      if (!visible) continue;
+      if (bl.embed) {
+        bl.el.classList.toggle("pre", t < 0.5);
+      } else {
+        const n = Math.round(bl.len * t);
+        bl.n = n;
+        bl.html = runsHTML(bl.runs, n);
+      }
+      active = bl;
+    }
+    // the caret sits at the end of the last text block that is shown
+    let caretBl = null;
+    for (const bl of blocks) if (!bl.el.hidden && bl.runs) caretBl = bl;
+    for (const bl of blocks) {
+      if (bl.el.hidden || !bl.runs) continue;
+      const html = bl.html + (bl === caretBl && !(x > 14.2) ? caret : "");
+      if (bl._last !== html) { bl.el.innerHTML = html; bl._last = html; }
+    }
+
+    // sidebar source + split source pane
+    const split = n >= srcClick;
+    panes.classList.toggle("split", split);
+    srcToggle.classList.toggle("on", split);
+    rend.textContent = split ? "Source + preview" : "Noteblock editor";
+    show("f-quire", split); show("f-index", split);
+    show("r-alfama", x >= 4.9); show("f-scene", x >= 4.9 && split);
+    flag("r-alfama", "new", x >= 4.9 && x < 6.2);
+    show("r-chat", x >= 8.0);
+    flag("r-chat", "new", x >= 8.0 && x < 9.2);
+    show("r-pack", x >= 12.2);
+    flag("r-pack", "new", x >= 12.2 && x < 13.4);
+
+    // code
+    const lines = [];
+    for (const bl of blocks) {
+      if (bl.el.hidden) continue;
+      if (bl.embed) { lines.push(`${open("noteblock-embed", ` <span class="a">src</span><span class="p">=</span><span class="s">"${bl.embed}"</span>`)}${close("noteblock-embed")}`); continue; }
+      const inner = runsHTML(bl.runs, bl.n, true);
+      const done = bl.n >= bl.len;
+      if (bl.tag === "li") {
+        if (bl.b === "4a") lines.push(open("ul"));
+        lines.push("  " + open("li") + inner + (done ? close("li") : ""));
+        if (bl.b === "4c" && done) lines.push(close("ul"));
+      } else {
+        lines.push(open(bl.tag) + inner + (done ? close(bl.tag) : ""));
+      }
+    }
+    const codeHTML = lines.join("\n");
+    if (code._last !== codeHTML) { code.innerHTML = codeHTML; code._last = codeHTML; }
+    code.scrollTop = code.scrollHeight;
+
+    // chat
+    const q = ramp(x, 8.3, 8.8), aT = ramp(x, 8.95, 9.8);
+    m1.hidden = x < 8.3; m1.textContent = Q1.slice(0, Math.round(Q1.length * q));
+    m2.hidden = x < 8.95; m2.textContent = A1.slice(0, Math.max(1, Math.round(A1.length * aT))) + (aT < 1 ? "▍" : "");
+
+    // terminal
+    term.classList.toggle("off", !(x >= 10.75 && x < 13.5));
+    let th = "";
+    for (const ln of TERM) {
+      if (x < ln.at[0]) break;
+      th += `<div>${ln.html(Math.round((ln.len || 0) * ramp(x, ln.at[0], ln.at[1])))}</div>`;
+    }
+    if (termBody._last !== th) { termBody.innerHTML = th; termBody._last = th; }
+
+    // packing list ticks
+    packItems.forEach((li, i) => li.classList.toggle("done", x >= 12.7 + i * 0.22));
+
+    // publish
+    const clickAt = 14.65;
+    pub.classList.toggle("down", x >= clickAt - 0.05 && x < clickAt + 0.12);
+    const busy = x >= clickAt && x < 15.3, isLive = x >= 15.3;
+    setPubLabel(busy ? "busy" : isLive ? "live" : "idle");
+    pop.classList.toggle("off", !(x >= 15.4));
+
+    // the page scrolls to follow what's being written (or the embed in use)
+    let focusEl = active.el;
+    if (x >= 5.1 && x < 7.4) focusEl = $("#sceneBlk");
+    if (x >= 8.0 && x < 10.0) focusEl = $("#chatBlk");
+    if (x >= 12.3 && x < 13.6) focusEl = $("#packBlk");
+    const follow = Math.max(0, focusEl.offsetTop + focusEl.offsetHeight - page.clientHeight + 90);
+    page.scrollTop += (follow - page.scrollTop) * 0.18;
+
+    // cursor: into the scene and drag, then to Publish
+    let cur = null, down = false;
+    // into the sidebar, click Source, drift off
+    const tog = srcToggle.querySelector(".switch");
+    if (n >= SRC_AT + 0.05 && n < SRC_AT + SRC_LEN && tog.getBoundingClientRect().width) {
+      const start = [win.getBoundingClientRect().width * 0.55, win.getBoundingClientRect().height + 30];
+      const at = rel(tog, 0.5, 0.6);
+      const away = [at[0] + 140, at[1] + 120];
+      if (n < srcClick - 0.15) cur = lerp2(start, at, ease(ramp(n, SRC_AT + 0.05, srcClick - 0.15)));
+      else if (n < srcClick + 0.2) cur = at;
+      else cur = lerp2(at, away, ease(ramp(n, srcClick + 0.2, SRC_AT + SRC_LEN)));
+      down = n >= srcClick - 0.08 && n < srcClick + 0.08;
+    }
+    const wr = win.getBoundingClientRect();
+    const offRight = [wr.width + 30, wr.height * 0.7];
+    if (x >= 5.15 && x < 7.4 && !$("#sceneBlk").hidden) {
+      const s1 = rel($("#scene"), 0.3, 0.55), s2 = rel($("#scene"), 0.72, 0.45);
+      if (x < 5.6) cur = lerp2(offRight, s1, ease(ramp(x, 5.15, 5.6)));
+      else if (x < 7.0) {
+        const t = ramp(x, 5.65, 6.95);
+        // back and forth: right, then a little left
+        const sw = t < 0.65 ? ease(t / 0.65) : 1 - 0.35 * ease((t - 0.65) / 0.35);
+        cur = lerp2(s1, s2, sw);
+        cur[1] += Math.sin(t * Math.PI * 2) * 6;
+        down = x >= 5.62;
+      } else cur = lerp2(lerp2(s1, s2, 0.65), offRight, ease(ramp(x, 7.0, 7.4)));
+    }
+    if (x >= 13.9 && x < 16.2) {
+      const p = rel(pub, 0.45, 0.6);
+      if (x < 14.6) cur = lerp2(offRight, p, ease(ramp(x, 13.9, 14.6)));
+      else cur = p;
+      down = x >= clickAt - 0.05 && x < clickAt + 0.12;
+    }
+    // orbit follows the drag
+    const dragT = ramp(x, 5.65, 6.95);
+    orbit = 0.6 - 1.5 * (dragT < 0.65 ? ease(dragT / 0.65) : 1 - 0.35 * ease((dragT - 0.65) / 0.35));
+    cursor.classList.toggle("off", !cur);
+    cursor.classList.toggle("down", down);
+    if (cur) cursor.style.transform = `translate(${cur[0] - 3}px, ${cur[1] - 2}px)`;
+
+    hint.style.opacity = x < 0.25 ? 1 : 0;
+
+    if (x >= 4.8 && !three) initScene();
+    if (three && x >= 4.8 && x < 8.5) drawScene(now);
+  }
+
+  const GLOBE = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="5.5"/><path d="M2.5 8h11M8 2.5c1.6 1.6 1.6 9.4 0 11M8 2.5c-1.6 1.6-1.6 9.4 0 11"/></svg>';
+  function setPubLabel(state) {
+    pub.classList.toggle("busy", state === "busy");
+    pub.classList.toggle("live", state === "live");
+    const label = state === "busy" ? "Publishing…" : state === "live" ? "Live" : "Publish";
+    if (pubLabel.textContent === label) return;
+    pubLabel.textContent = label;
+    pub.querySelector("svg, .spin, .dot")?.remove();
+    pub.insertAdjacentHTML("afterbegin", state === "busy" ? '<span class="spin"></span>' : state === "live" ? '<span class="dot"></span>' : GLOBE);
+  }
+
+  // ---- the black badge: a short note that drops in at the top of the screen
+  const badgeEl = $("#badge");
+  let badgeTimer = null;
+  function badge(html, at, ms = 1800, interactive = false) {
+    badgeEl.innerHTML = html;
+    badgeEl.classList.toggle("interactive", interactive);
+    badgeEl.classList.toggle("tall", html.length > 90);
+    badgeEl.classList.remove("on");
+    void badgeEl.offsetWidth;
+    badgeEl.classList.add("on");
+    clearTimeout(badgeTimer);
+    badgeTimer = setTimeout(() => badgeEl.classList.remove("on"), ms);
+  }
+  const ARROW = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M8 3v10M4 9l4 4 4-4"/></svg>';
+
+  // Clicking the scroll demo: a pointer to scroll instead.
+  win.addEventListener("click", (e) => {
+    if (live) return;
+    badge("Scroll down to see the demo " + ARROW, e);
+  });
+
+  // ---- live demo: the same window, full screen, and everything in it works
+  const liveEl = $("#live"), liveHost = $("#liveHost"), home = win.parentElement;
+  const pageKids = [...pageIn.children];
+  const listEl = document.querySelector('[data-b="4"]'), listKids = [...listEl.children];
+  const chatEl = document.querySelector("#chatBlk .chat"), chatInput = $("#chatInput");
+  let live = false;
+
+  function setSplit(on) {
+    panes.classList.toggle("split", on);
+    srcToggle.classList.toggle("on", on);
+    rend.textContent = on ? "Source + preview" : "Noteblock editor";
+    show("f-quire", on); show("f-index", on); show("f-scene", on);
+    if (on) writeSource();
+  }
+
+  // The note's real HTML, highlighted, rebuilt as you type.
+  function inline(node) {
+    let s = "";
+    const tags = { B: "b", STRONG: "b", I: "i", EM: "i", U: "u", S: "s", A: "a", CODE: "code" };
+    for (const c of node.childNodes) {
+      if (c.nodeType === 3) s += esc(c.nodeValue);
+      else if (c.nodeType === 1 && !c.classList.contains("caret")) {
+        if (c.tagName === "BR") s += open("br");
+        else if (tags[c.tagName]) s += open(tags[c.tagName]) + inline(c) + close(tags[c.tagName]);
+        else s += inline(c);
+      }
+    }
+    return s;
+  }
+  function writeSource() {
+    const out = [];
+    for (const el of pageIn.children) {
+      if (el.hidden) continue;
+      if (el.classList.contains("embed")) {
+        const name = el.querySelector(".embed-head").textContent.trim();
+        out.push(`${open("noteblock-embed", ` <span class="a">src</span><span class="p">=</span><span class="s">"${esc(name)}"</span>`)}${close("noteblock-embed")}`);
+        continue;
+      }
+      const tag = /^(H[1-4]|P|BLOCKQUOTE|UL|OL|PRE)$/.test(el.tagName) ? el.tagName.toLowerCase() : "p";
+      if (tag === "ul" || tag === "ol") {
+        out.push(open(tag));
+        for (const li of el.children) if (!li.hidden) out.push("  " + open("li") + inline(li) + close("li"));
+        out.push(close(tag));
+      } else out.push(open(tag) + inline(el) + close(tag));
+    }
+    code.innerHTML = out.join("\n");
+    code._last = null;
+  }
+  let srcQueued = false;
+  pageIn.addEventListener("input", () => {
+    if (!live || srcQueued) return;
+    srcQueued = true;
+    requestAnimationFrame(() => { srcQueued = false; if (panes.classList.contains("split")) writeSource(); });
+  });
+
+  function sceneLoop(now) {
+    if (!live) return;
+    drawScene(now);
+    requestAnimationFrame(sceneLoop);
+  }
+
+  function enterLive() {
+    if (live) return;
+    live = true;
+    paint(BEATS, performance.now()); // the whole note, written
+    cursor.classList.add("off");
+    term.classList.add("off");
+    pop.classList.add("off");
+    hint.style.opacity = 0;
+    setPubLabel("idle");
+    setSplit(false);
+    packItems.forEach((li, i) => li.classList.toggle("done", i < 2));
+    liveHost.appendChild(win);
+    win.removeAttribute("aria-hidden");
+    liveEl.hidden = false;
+    document.documentElement.classList.add("is-live");
+    pageIn.contentEditable = "true";
+    pageIn.spellcheck = false;
+    pageIn.querySelectorAll(".embed").forEach((e) => (e.contentEditable = "false"));
+    page.scrollTop = 0;
+    initScene();
+    requestAnimationFrame(sceneLoop);
+    $("#liveClose").focus({ preventScroll: true });
+  }
+
+  function exitLive() {
+    if (!live) return;
+    live = false;
+    pageIn.removeAttribute("contenteditable");
+    // Put the note back the way the scroll story expects it.
+    pageIn.replaceChildren(...pageKids);
+    listEl.replaceChildren(...listKids);
+    chatEl.querySelectorAll(".added").forEach((m) => m.remove());
+    chatInput.value = "";
+    for (const bl of blocks) bl._last = null;
+    code._last = null;
+    termBody._last = null;
+    home.appendChild(win);
+    win.setAttribute("aria-hidden", "true");
+    liveEl.hidden = true;
+    document.documentElement.classList.remove("is-live");
+    lastNow = 0;
+    requestAnimationFrame(render);
+  }
+
+  const syncHash = () => (location.hash === "#live" ? enterLive() : exitLive());
+  window.addEventListener("hashchange", syncHash);
+  function closeLive() {
+    try { history.replaceState(null, "", location.pathname + location.search); } catch (e) { /* ignore */ }
+    exitLive();
+  }
+  $("#liveClose").addEventListener("click", closeLive);
+  document.addEventListener("keydown", (e) => {
+    if (live && e.key === "Escape") closeLive();
+  });
+
+  // Source, from the sidebar switch or the renderer pill
+  srcToggle.addEventListener("click", () => live && setSplit(!panes.classList.contains("split")));
+  rend.addEventListener("click", () => live && setSplit(!panes.classList.contains("split")));
+
+  // Sidebar: this note's pages scroll to their embed; the rest live in the app
+  const jump = { "r-first": null, "r-alfama": "#sceneBlk", "r-chat": "#chatBlk", "r-pack": "#packBlk" };
+  $("#tree").addEventListener("click", (e) => {
+    if (!live) return;
+    const row = e.target.closest(".row");
+    if (!row || row.classList.contains("folder")) return;
+    if (row.id in jump) {
+      const t = jump[row.id] && $(jump[row.id]);
+      page.scrollTo({ top: t ? Math.max(0, t.offsetTop - 24) : 0, behavior: reduced ? "auto" : "smooth" });
+    } else if (row.classList.contains("file")) setSplit(true);
+    else badge("This demo has one note. The rest are waiting in the app.", e, 2400);
+  });
+
+  // 3D scene: drag to look around
+  const sceneHost = $("#scene");
+  let drag = null;
+  sceneHost.addEventListener("pointerdown", (e) => {
+    if (!live) return;
+    drag = { x: e.clientX, orbit };
+    sceneHost.classList.add("grabbing");
+    sceneHost.setPointerCapture(e.pointerId);
+  });
+  sceneHost.addEventListener("pointermove", (e) => {
+    if (drag) orbit = drag.orbit - (e.clientX - drag.x) * 0.01;
+  });
+  const endDrag = () => { drag = null; sceneHost.classList.remove("grabbing"); };
+  sceneHost.addEventListener("pointerup", endDrag);
+  sceneHost.addEventListener("pointercancel", endDrag);
+
+  // Packing list
+  packItems.forEach((li) => li.addEventListener("click", () => live && li.classList.toggle("done")));
+
+  // Trip chat (canned answers here; the app calls the model with your key)
+  const ANSWERS = [
+    [/pack|bring|wear|shoe|bag/i, A1],
+    [/eat|food|past|dinner|lunch|breakfast|coffee/i, "Pastéis at Manteigaria, then dinner in Alfama. Places with fado fill up, so book ahead on weekends."],
+    [/tram|28|metro|get around|transport|uber|walk/i, "Catch the 28 before 9, or board where it starts at Martim Moniz. Ride it uphill and walk back down."],
+    [/weather|rain|warm|cold|hot|temp/i, "Mid-May is usually 18–24°C with the odd shower. Mornings by the river are cool."],
+    [/day ?trip|sintra|cascais|beach/i, "Sintra is 40 minutes by train from Rossio. Go early on a weekday, the palaces get crowded."],
+  ];
+  function say(cls, text, typed) {
+    const m = document.createElement("div");
+    m.className = "msg added " + cls;
+    chatEl.appendChild(m);
+    if (!typed) { m.textContent = text; return; }
+    let i = 0;
+    const tick = () => {
+      i = Math.min(text.length, i + 3);
+      m.textContent = text.slice(0, i) + (i < text.length ? "▍" : "");
+      if (i < text.length && live) setTimeout(tick, 18);
+    };
+    tick();
+  }
+  chatInput.addEventListener("keydown", (e) => {
+    if (e.key !== "Enter" || !chatInput.value.trim()) return;
+    e.preventDefault();
+    const q = chatInput.value.trim();
+    chatInput.value = "";
+    say("me", q);
+    const hit = ANSWERS.find(([re]) => re.test(q));
+    setTimeout(() => say("bot", hit ? hit[1] : "In the app this asks the model, using your own API key. Here I only know a few things about the trip: try packing, food, the tram or the weather.", true), 450);
+  });
+
+  // Publish
+  pub.addEventListener("click", () => {
+    if (!live) return;
+    if (pub.classList.contains("live")) { pop.classList.toggle("off"); return; }
+    if (pub.classList.contains("busy")) return;
+    setPubLabel("busy");
+    setTimeout(() => { if (!live) return; setPubLabel("live"); pop.classList.remove("off"); }, 1300);
+  });
+  pop.querySelector(".pop-actions").addEventListener("click", (e) => {
+    if (!live) return;
+    const t = e.target.closest("span");
+    if (!t) return;
+    if (t.textContent === "Copy link") {
+      const url = "https://" + pop.querySelector("code").textContent;
+      const done = () => badge("Copied. In the app, that link would be live.", null, 2200);
+      try { navigator.clipboard.writeText(url).then(done, done); } catch (err) { done(); }
+    } else badge("In the app, Open shows your page on the web.", null, 2200);
+  });
+  document.addEventListener("pointerdown", (e) => {
+    if (live && !pop.classList.contains("off") && !pop.contains(e.target) && !pub.contains(e.target)) pop.classList.add("off");
+  });
+
+  requestAnimationFrame(render);
+  if (location.hash === "#live") enterLive();
+})();
+</script>
+
+</body></html>

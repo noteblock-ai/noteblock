@@ -1,0 +1,29 @@
+// quire-site (the name stays): the Noteblock landing page (static assets from ../public) plus
+// /download and the release files in R2 (bucket quire-releases). The script runs first on every
+// request so it can 301 www.noteblock.ai and the old host (see src/index.ts); everything else on
+// noteblock.ai falls through to the assets.
+// Hostnames come from core/brand.mjs (BRAND.domain, BRAND.legacyDomain); routes must be literal.
+// quire-hosting owns the more specific noteblock.ai/api/*, /auth/* and quire.harborapps.org/api/*,
+// /auth/* routes, and the wildcard *.noteblock.ai/*; the exact www.noteblock.ai/* host here beats
+// that wildcard. DNS (zone noteblock.ai): proxied `@` and `www` (or the proxied `*` covers www).
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "quire-site",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-01",
+  "workers_dev": false,
+  "routes": [
+    { "pattern": "noteblock.ai/*", "zone_name": "noteblock.ai" },
+    { "pattern": "www.noteblock.ai/*", "zone_name": "noteblock.ai" },
+    { "pattern": "quire.harborapps.org/*", "zone_name": "harborapps.org" }
+  ],
+  "assets": {
+    "directory": "../public",
+    "binding": "ASSETS",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "none",
+    "run_worker_first": true
+  },
+  "r2_buckets": [{ "binding": "RELEASES", "bucket_name": "quire-releases" }],
+  "observability": { "enabled": true }
+}

@@ -1,0 +1,36 @@
+/* Packing list: Ledger tokens, with --q-* overrides when the theme provides them. */
+:root {
+  --bg: var(--q-ground, #FFFFFF);
+  --raised: var(--q-raised, #F3F4F6);
+  --line: var(--q-line, #E4E6EA);
+  --text: var(--q-ink, #15171C);
+  --muted: var(--q-muted, #5B6270);
+  --accent: var(--q-accent, #3451D1);
+  --danger: #B42318;
+  --font: var(--q-font, 'Geist Variable', 'Geist', system-ui, sans-serif);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.5 var(--font); }
+button, input { font: inherit; color: inherit; }
+
+.packing { padding: 6px 8px 10px; }
+.packing.full { max-width: 760px; margin: 0 auto; padding: 56px 24px 96px; }
+.packing h1 { margin: 0 0 4px; font-size: 40px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; }
+.count { margin: 0 6px 6px; font-size: 13px; color: var(--muted); }
+
+ul { list-style: none; margin: 0; padding: 0; }
+li { display: flex; align-items: center; gap: 10px; min-height: 40px; padding: 0 6px; border-radius: 6px; }
+li:hover { background: var(--raised); }
+li label { flex: 1 1 auto; display: flex; align-items: center; gap: 10px; cursor: pointer; min-height: 40px; }
+li input[type=checkbox] { width: 16px; height: 16px; margin: 0; accent-color: var(--accent); }
+li.done span { text-decoration: line-through; color: var(--muted); }
+li button { width: 28px; height: 28px; border: 0; border-radius: 6px; background: none; color: var(--muted); cursor: pointer; opacity: 0; }
+li:hover button, li button:focus { opacity: 1; }
+li button:hover { color: var(--danger); }
+
+form { display: flex; gap: 8px; padding: 6px 6px 0; }
+form input { flex: 1 1 auto; min-width: 0; border: 1px solid var(--line); border-radius: 6px; padding: 5px 8px; outline: none; background: var(--bg); }
+form input:focus { border-color: var(--accent); }
+form button { border: 0; border-radius: 6px; padding: 0 12px; background: var(--accent); color: #fff; font-weight: 500; cursor: pointer; }
+
+.readonly li button, .readonly form { display: none; }

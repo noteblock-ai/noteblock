@@ -1,0 +1,18 @@
+node_modules/
+dist/
+app/renderer/dist/
+app/runtime/vendor/
+build/icon.png
+.DS_Store
+!examples/**/dist/
+build/icon-dev.png
+build/icon-next.png
+app/main/version.json
+ios/Generated/
+ios/*.xcodeproj/
+ios/build/
+ios/.env
+build/tools/
+
+# Session notes go to a private repo (git config feedback.repo)
+docs/process-feedback.md

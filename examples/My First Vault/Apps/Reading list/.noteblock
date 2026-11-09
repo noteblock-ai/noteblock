@@ -1,0 +1,6 @@
+{
+  "id": "rl4bk8vx2m",
+  "entry": "dist/index.html",
+  "source": "index.html",
+  "build": "pnpm install --prefer-offline --silent && pnpm exec vite build --logLevel warn"
+}

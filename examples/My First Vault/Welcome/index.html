@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Welcome</title>
+<style>
+  figure img { border: 1px solid var(--q-line); }
+</style>
+</head>
+<body>
+<h1>Welcome</h1>
+<p>Noteblock is a notebook where every page is a small web app. A page can be plain text like this one, a Markdown note, or HTML with its own scripts and its own saved data.</p>
+<p>Each page in the sidebar is a folder in your vault with a small <code>.noteblock</code> file naming its entry, usually <code>index.html</code> or <code>index.md</code>. Scripts, styles and images in the folder are served next to the page. Data a page saves goes in its <code>data/</code> folder on this computer and stays out of git.</p>
+
+<h2>Writing</h2>
+<p>Click anywhere in the text and type. Type <code>/</code> at the start of an empty line for headings, lists, quotes, code, a divider, or another page embedded in this one. Select text to make it bold, italic, a link or a heading.</p>
+<p>Turn on <strong>Source</strong> next to Pages in the sidebar to see every file in each page and open any of them.</p>
+
+<h2>Keyboard shortcuts</h2>
+<table>
+<thead><tr><th>Keys</th><th>Does</th></tr></thead>
+<tbody>
+<tr><td><kbd><span class="q-mac">⌘P</span><span class="q-pc">Ctrl+P</span></kbd></td><td>Command palette: find a page or run a command</td></tr>
+<tr><td><kbd><span class="q-mac">⌘N</span><span class="q-pc">Ctrl+N</span></kbd></td><td>New page</td></tr>
+<tr><td><kbd><span class="q-mac">⌘⌥N</span><span class="q-pc">Ctrl+Shift+A</span></kbd></td><td>New page from a template</td></tr>
+<tr><td><kbd><span class="q-mac">⌘⇧N</span><span class="q-pc">Ctrl+Shift+N</span></kbd></td><td>New window</td></tr>
+<tr><td><kbd><span class="q-mac">⌃⌘N</span><span class="q-pc">Ctrl+Shift+D</span></kbd></td><td>New folder</td></tr>
+<tr><td><kbd><span class="q-mac">⌘T</span><span class="q-pc">Ctrl+T</span></kbd> / <kbd><span class="q-mac">⌘W</span><span class="q-pc">Ctrl+W</span></kbd></td><td>New tab / close tab</td></tr>
+<tr><td><kbd><span class="q-mac">⌘⇧[</span><span class="q-pc">Ctrl+Shift+[</span></kbd> / <kbd><span class="q-mac">⌘⇧]</span><span class="q-pc">Ctrl+Shift+]</span></kbd></td><td>Previous / next tab</td></tr>
+<tr><td><kbd><span class="q-mac">⌘E</span><span class="q-pc">Ctrl+E</span></kbd></td><td>Switch view: Noteblock editor, Rendered, Source + preview</td></tr>
+<tr><td><kbd><span class="q-mac">⌘S</span><span class="q-pc">Ctrl+S</span></kbd></td><td>Save text edits on a page with a build step</td></tr>
+<tr><td><kbd><span class="q-mac">⌘,</span><span class="q-pc">Ctrl+,</span></kbd></td><td>Settings</td></tr>
+<tr><td><kbd><span class="q-mac">⌘⌥J</span><span class="q-pc">F12</span></kbd></td><td>Inspect the page you're on</td></tr>
+<tr><td><kbd><span class="q-mac">⌘⌥I</span><span class="q-pc">Ctrl+Shift+I</span></kbd></td><td>Developer tools for Noteblock itself</td></tr>
+<tr><td><kbd><span class="q-mac">⌘⇧Space</span><span class="q-pc">Ctrl+Shift+Space</span></kbd></td><td>Show or hide the floating note, from any app</td></tr>
+</tbody>
+</table>
+<p>Change any of them in Settings → Keyboard shortcuts.</p>
+
+<h2>Views</h2>
+<p>The picker in the top bar, or <kbd><span class="q-mac">⌘E</span><span class="q-pc">Ctrl+E</span></kbd>, switches how a page opens. <strong>Noteblock editor</strong> lets you edit the text in place. <strong>Rendered</strong> shows the page running as it would in a browser, which suits pages that are mostly an app. <strong>Source + preview</strong> puts the page's file next to a live preview. The same menu can make the current view the page's default.</p>
+<p>Pages built with Vite or another build step rebuild when you save, so their text edits wait for <kbd><span class="q-mac">⌘S</span><span class="q-pc">Ctrl+S</span></kbd>. Everything else saves as you type.</p>
+
+<h2>Publishing</h2>
+<p>The <strong>Publish</strong> button puts the page on the web at a link anyone can open. With Noteblock hosting it lands at <code>&lt;name&gt;.noteblock.ai</code>; the first time, Noteblock asks you to sign in. After that the button shows Live, or Changes not live when you've edited since, and its menu has Open, Copy link, Publish changes and Unpublish.</p>
+<figure>
+<img src="images/publish.png" alt="The Sign in to publish dialog over the Kyoto trip page" width="430">
+<figcaption>Publishing while signed out asks you to sign in first.</figcaption>
+</figure>
+<p>To publish to your own Cloudflare account instead, turn on Settings → Publishing → Self-hosting and connect Cloudflare there. The page goes up as a Worker in your account.</p>
+
+<h2>Floating note</h2>
+<p>Press <kbd><span class="q-mac">⌘⇧Space</span><span class="q-pc">Ctrl+Shift+Space</span></kbd> in any app to open a small note that stays on top of your other windows. Press it again, or Esc, to hide it. It's a normal page in this vault, called Floating note until you pick another one, so whatever you jot down is saved and synced like everything else.</p>
+<p>Press <kbd><span class="q-mac">⌘P</span><span class="q-pc">Ctrl+P</span></kbd> inside it to switch to a different page. Settings → Floating note changes the shortcut or turns it off. Window tools like Raycast or Rectangle can move and resize it.</p>
+
+<h2>Settings</h2>
+<p>Open Settings with <kbd><span class="q-mac">⌘,</span><span class="q-pc">Ctrl+,</span></kbd>.</p>
+<figure>
+<img src="images/settings.png" alt="The Settings window on the Editor tab">
+</figure>
+<table>
+<tbody>
+<tr><td>Vault</td><td>Rename or move this vault, or open another one.</td></tr>
+<tr><td>Editor</td><td>Text size, font, width, spellcheck and the default view.</td></tr>
+<tr><td>Sync</td><td>Push the vault's history to a private git repo and pull it on another computer.</td></tr>
+<tr><td>Publishing</td><td>Your Noteblock account and Cloudflare self-hosting.</td></tr>
+<tr><td>Import</td><td>Bring in an Obsidian vault, claude.ai artifacts, or .html and .md files.</td></tr>
+<tr><td>Keyboard shortcuts</td><td>Rebind any shortcut, and choose whether a page can take one over.</td></tr>
+<tr><td>Floating note</td><td>Which page the floating note shows, and its shortcut.</td></tr>
+<tr><td>Templates</td><td>The pages <kbd><span class="q-mac">⌘⌥N</span><span class="q-pc">Ctrl+Shift+A</span></kbd> copies from.</td></tr>
+<tr><td>Activity &amp; limits</td><td>Memory and CPU for every page and backend, and the limits Noteblock enforces.</td></tr>
+</tbody>
+</table>
+
+<h2>Pages with a backend</h2>
+<p>A page can run its own server. Its <code>.noteblock</code> file names the command, like <code>"backend": {"run": "node server.js"}</code>, and Noteblock runs it from the page's <code>backend/</code> folder. The page reaches it at <code>api/…</code>. It starts when you open the page and stops after 15 minutes without use. <strong>Apps / Guestbook</strong> is a small example.</p>
+<p>A page with a backend gets a <strong>Backend</strong> pill in the top bar. Its dot is green while everything runs and red after a crash. Click it for each process's port and log, with Restart and Stop. View → Backend Logs opens the same panel.</p>
+<figure>
+<img src="images/backend.png" alt="The Guestbook page with its Backend panel open, showing the api process running and its log">
+<figcaption>The Backend panel on Guestbook.</figcaption>
+</figure>
+<p>When a page's scripts throw, a pill such as "2 errors" appears in the top bar. It lists each error with the file and line it came from, and clears when the page reloads. If a page stops responding or crashes, a card covers it with Reload page and Open source.</p>
+<p>Settings → Activity &amp; limits shows what every page and backend is using, with Stop, Restart and Logs for each backend. Its limits stop a backend that runs away with memory, CPU or processes.</p>
+
+<h2>Developer tools</h2>
+<p><kbd><span class="q-mac">⌘⌥J</span><span class="q-pc">F12</span></kbd> opens Chrome DevTools for the page you're on: its elements, console, files and network requests, including calls to its backend. Right-click an embedded page and choose Inspect to get one for just that embed. <kbd><span class="q-mac">⌘⌥I</span><span class="q-pc">Ctrl+Shift+I</span></kbd> opens DevTools for Noteblock's own window, for when the app itself misbehaves.</p>
+
+<h2>Pages that run code</h2>
+<p>These are the pages in this vault that run something on your Mac or use the network.</p>
+<table>
+<thead><tr><th>Page</th><th>Runs on your Mac</th><th>Network</th></tr></thead>
+<tbody>
+<tr><td>Apps / Guestbook</td><td><code>node server.js</code> in its <code>backend/</code> folder, while the page is in use</td><td>None. The server only accepts connections from this Mac.</td></tr>
+<tr><td>Apps / Blastside</td><td>A build (<code>pnpm install</code>, then Vite) after you change its files</td><td>After you press Play, it connects to the Noteblock game server at play.noteblock.ai. A build downloads packages from the npm registry.</td></tr>
+<tr><td>Apps / Focus timer</td><td>A build (<code>pnpm install</code>, then Vite) after you change its files</td><td>A build downloads packages from the npm registry.</td></tr>
+<tr><td>Apps / Reading list</td><td>A build (<code>pnpm install</code>, then Vite) after you change its files</td><td>A build downloads packages from the npm registry.</td></tr>
+</tbody>
+</table>
+<p>Every other page is plain HTML or Markdown, and no page here reads files outside its own folder.</p>
+
+<h2>Editing pages from outside the app</h2>
+<p>Noteblock has no AI built in. Pages are plain files in a folder, so any editor or coding agent can change them. The <code>quire</code> command marks a page as being edited while that happens:</p>
+<pre><code>quire edit "Kyoto trip/Trip budget" -m "Add a paid-by column"
+# change the files in the folder it prints
+quire done "Kyoto trip/Trip budget"</code></pre>
+<p>Until <code>quire done</code>, the page is read-only here and shows the version from before the edit. Every change is a git commit in the vault, so <code>quire log</code> shows what changed and anything can be undone.</p>
+</body>
+</html>

@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /downloads/
+Disallow: /updates/
+
+Sitemap: https://noteblock.ai/sitemap.xml

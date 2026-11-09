@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Noteblock Privacy Policy</title>
+<meta name="description" content="What Noteblock stores, what leaves your computer, and who handles it.">
+<link rel="canonical" href="https://noteblock.ai/privacy">
+<meta name="theme-color" content="#ffffff">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" href="/fonts/geist-latin-v5.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/legal.css">
+</head>
+<body>
+<header class="nav"><div class="wrap"><a class="brand" href="/" aria-label="Noteblock home"><img src="/favicon.svg" alt=""><span class="wordmark">noteblock<span>.ai</span></span></a></div></header>
+<main class="wrap">
+<h1>Privacy Policy</h1>
+<p class="updated">Last updated November 3, 2026</p>
+
+<p>Noteblock is a notes app that runs on your computer. Harbor Apps LLC, a Minnesota company, makes it and runs noteblock.ai. This policy covers the desktop app, noteblock.ai (including its older address, quire.harborapps.org) and pages published to noteblock.ai addresses. "We" means Harbor Apps LLC.</p>
+
+<h2>Your vault</h2>
+<p>Your pages, their data and their history are stored in a folder on your computer. We don't have a copy and can't read it. You don't need an account to use the app.</p>
+<p>Parts of your vault leave your computer in three cases: you publish a page, you turn on sync, or you use Noteblock AI. Each is described below. Code inside a page can also send data, which is covered under Pages and backends.</p>
+
+<h2>Accounts</h2>
+<p>You need an account to publish to noteblock.ai or to use Noteblock AI. You sign in with Google or GitHub. From Google we ask for your basic profile and email address (the <code>openid</code>, <code>email</code> and <code>profile</code> scopes). From GitHub we ask for the same through <code>read:user</code> and <code>user:email</code>.</p>
+<p>We store these in a Postgres database at Neon:</p>
+<ul>
+<li>your name, email address, profile image address and whether the provider verified your email</li>
+<li>your account ID at the provider and the tokens it returns when you sign in</li>
+<li>browser sign-in sessions, which can include your IP address and browser user agent</li>
+<li>a hash of the token that signs the desktop app in, with when it was created and last used (the token itself stays on your computer)</li>
+</ul>
+<p>We use this information to sign you in, tell accounts apart and show you which account you're using. We don't use the provider's tokens to read anything else from your Google or GitHub account. We don't sell this information or use it for advertising, and we share it only with the service providers listed below or when the law requires it.</p>
+
+<h2>Publishing</h2>
+<p>When you publish a page to noteblock.ai, the app uploads the page's files to Cloudflare R2. It leaves out the page's data folder, its backend folder and hidden files. We also store the page's title, address, size, file count and dates, plus recent upload times to enforce the hourly limit.</p>
+<p>A published page is public. Anyone with the address can open it, and the address alone protects nothing. Don't publish anything you want kept private.</p>
+<p>You can also publish to your own Cloudflare account. Those pages go straight to that account, and we don't receive or store them.</p>
+
+<h2>Pages and backends</h2>
+<p>A page can contain scripts, and on your computer it can run a backend you or Noteblock AI added. That code can send data anywhere it's written to, and we don't see or control it. Read code before you trust it, especially code you didn't write. If a page you publish collects information from visitors, that information and how you handle it are your responsibility.</p>
+
+<h2>Sync</h2>
+<p>Sync pushes your vault's git history to a remote you choose, such as a private GitHub repository. It goes directly from your computer to that remote, using your own credentials. We don't run the remote and never see what's in it. The remote's own terms and privacy policy apply.</p>
+
+<h2>Noteblock AI</h2>
+<p>When you use Noteblock AI, the request passes through our server to Anthropic, and the reply comes back the same way. A request contains your prompt, the conversation so far, the main file of the page you have open, the names of that page's other files and the list of pages in your vault. It also contains anything Noteblock AI reads while it works. By default it can read your other pages. You can change what it's allowed to do in Settings.</p>
+<p>Our server doesn't store your prompts, your page contents or the replies. For each request it records your account, the time, the model, the purpose (such as building a page), token counts and cost. We use these records to enforce the daily limit and to see what the service costs, and we can view totals per account.</p>
+<p>The app and our server don't add your name or email address to the request, so Anthropic only sees them if they're in the text you send. Anthropic handles requests under its own terms and <a href="https://www.anthropic.com/legal/privacy">privacy policy</a>, which include its own retention rules.</p>
+<p>Your conversations are saved on your computer, in Noteblock's settings folder and outside your vault. You can delete them in the app. If Noteblock AI fetches a web page for you, your computer makes the request, so that site sees your IP address.</p>
+
+<h2>Updates and downloads</h2>
+<p>The app checks noteblock.ai for a new version when it starts and every 30 minutes after that. It downloads an update only when you choose to. These requests and downloads don't include your account. Publishing to your own Cloudflare account downloads Cloudflare's wrangler tool from the public npm registry, which sees your IP address.</p>
+
+<h2>Analytics, logs and cookies</h2>
+<p>The desktop app has no analytics or crash reporting, and sign-in telemetry is turned off on our server.</p>
+<p>Pages on noteblock.ai addresses load Cloudflare Web Analytics, a script Cloudflare adds that reports page views and load times to Cloudflare. That includes the home page, these policy pages, the sign-in page and pages people publish. We use no advertising trackers.</p>
+<p>All traffic to noteblock.ai goes through Cloudflare, which processes your IP address, browser details and the address you asked for. Logging is on for our Cloudflare Workers so we can find and fix problems. The home page loads a graphics library from cdnjs, which Cloudflare also runs. The sign-in and error pages on noteblock.ai load a font from Google Fonts, so Google receives your IP address when you open one.</p>
+<p>We set cookies only for sign-in.</p>
+
+<h2>Service providers</h2>
+<p>These companies handle data for us, and may do so in the United States and other countries:</p>
+<ul>
+<li>Cloudflare: hosting, request handling, file storage and web analytics</li>
+<li>Neon: the account database</li>
+<li>Anthropic: Noteblock AI</li>
+<li>Google and GitHub: sign-in, for whichever one you use</li>
+<li>Google Fonts: a font on the sign-in and error pages</li>
+</ul>
+
+<h2>Keeping and deleting your data</h2>
+<p>Your vault and AI conversations stay on your computer until you delete them.</p>
+<p>Unpublishing a page removes its files and its record from our service right away. Copies in browsers or other caches, or copies people saved, can last longer. Signing the app out revokes its token.</p>
+<p>The app has no button for deleting your account yet. To delete it, email <a href="mailto:support@harborapps.org">support@harborapps.org</a> from the address on the account, and we'll delete the account, your published pages and your usage records. You can also write to us for a copy of your account information or to correct it.</p>
+<p>We have no fixed retention period: we keep account information until you delete your account or ask us to. Backups held by our providers can keep copies for some time after that.</p>
+
+<h2>Children</h2>
+<p>Noteblock accounts are not for children under 13. If you believe a child under 13 has an account, email us and we'll delete it.</p>
+
+<h2>Changes</h2>
+<p>When this policy changes we'll update this page and the date at the top.</p>
+
+<h2>Contact</h2>
+<p>Harbor Apps LLC, Minnesota, United States. Email <a href="mailto:support@harborapps.org">support@harborapps.org</a>.</p>
+</main>
+<footer class="foot"><div class="wrap"><span>Noteblock</span><span class="foot-links"><a href="/pricing">Pricing</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></span></div></footer>
+</body>
+</html>

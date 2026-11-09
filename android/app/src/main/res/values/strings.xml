@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The launcher name. Must equal BRAND.name in core/brand.mjs (scripts/build-mobile-host.mjs
+         fails the build when it doesn't). Kotlin reads it back as Brand.name. -->
+    <string name="app_name">Noteblock</string>
+    <!-- The launcher shortcut (res/xml/shortcuts.xml) and the Quick Settings tile. -->
+    <string name="quick_note_short_label">Quick note</string>
+    <string name="quick_note_long_label">New quick note</string>
+</resources>

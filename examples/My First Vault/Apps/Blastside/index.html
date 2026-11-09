@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blastside</title>
+<style>
+  /* the game fills the page; the note keeps Noteblock's own text style (theme variables, with fallbacks) */
+  html body[data-q-theme="none"] { margin: 0; padding: 0; height: 100%; background: var(--q-ground, #fff); }
+  .note { margin: 0; padding: 14px 20px; font: var(--q-text-size, 16px)/1.55 var(--q-page-font, system-ui, -apple-system, sans-serif); color: var(--q-ink, #1d1d1f); background: var(--q-ground, #fff); flex: none; }
+</style>
+</head>
+<body data-q-theme="none">
+<p class="note">Here's a real-time shooter with other Noteblock users, to show what a Noteblock note can do. Press Play to join, F for full screen.</p>
+<div id="root"></div>
+<script type="module" src="/src/main.tsx"></script>
+</body>
+</html>

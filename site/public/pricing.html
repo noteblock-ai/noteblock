@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Noteblock Pricing</title>
+<meta name="description" content="Noteblock is free and open source. Pro is $5 a month for 1,000 published sites and 250 Noteblock AI credits a month.">
+<link rel="canonical" href="https://noteblock.ai/pricing">
+<meta name="theme-color" content="#ffffff">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Noteblock">
+<meta property="og:url" content="https://noteblock.ai/pricing">
+<meta property="og:title" content="Noteblock Pricing">
+<meta property="og:description" content="Noteblock is free and open source. Pro is $5 a month.">
+<meta property="og:image" content="https://noteblock.ai/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Noteblock: Notes that are web apps.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Noteblock Pricing">
+<meta name="twitter:description" content="Noteblock is free and open source. Pro is $5 a month.">
+<meta name="twitter:image" content="https://noteblock.ai/og.png">
+<link rel="preload" href="/fonts/geist-latin-v5.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/legal.css">
+<style>
+/* /pricing: legal.css plus the two plan cards. Light only, like the rest of the site. */
+.wrap.wide { max-width: 820px; }
+.lead { margin: 0 0 32px; color: var(--muted); font-size: 17px; }
+.plans { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.plan { display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: 14px; padding: 24px; background: #fff; }
+.plan.pro { border-color: #c9d0e6; box-shadow: 0 1px 2px rgba(21,23,28,.04), 0 8px 24px rgba(21,23,28,.05); }
+.plan h2 { margin: 0; font-size: 16px; color: var(--muted); font-weight: 500; letter-spacing: 0; }
+.price { margin: 6px 0 2px; font-size: 34px; font-weight: 600; letter-spacing: -0.03em; line-height: 1.15; }
+.price small { font-size: 15px; font-weight: 400; color: var(--muted); letter-spacing: 0; }
+.billed { margin: 0 0 18px; color: var(--muted); font-size: 14px; min-height: 1.65em; }
+.plan ul { list-style: none; padding: 0; margin: 0 0 24px; flex: 1; }
+.plan li { position: relative; padding-left: 22px; margin-bottom: 8px; font-size: 15px; }
+.plan li::before { content: ""; position: absolute; left: 2px; top: .55em; width: 10px; height: 5px; border-left: 1.5px solid var(--faint); border-bottom: 1.5px solid var(--faint); transform: rotate(-45deg); }
+.btn { display: block; text-align: center; text-decoration: none; font-weight: 500; font-size: 15px; padding: 11px 18px; border-radius: 999px; border: 1px solid var(--line); color: var(--ink); background: #fff; }
+.btn:hover { background: #f3f4f6; }
+.btn.dark { background: var(--ink); border-color: var(--ink); color: #fff; }
+.btn.dark:hover { background: #2a2d35; }
+.alt { display: block; margin-top: 10px; text-align: center; font-size: 13px; color: var(--muted); text-underline-offset: 2px; }
+main .plan a { overflow-wrap: normal; }
+main .plan a.btn { color: var(--ink); }
+main .plan a.btn.dark { color: #fff; }
+main .plan a.alt { color: var(--muted); }
+main .plan a.alt:hover { color: var(--ink); }
+@media (max-width: 640px) { .plans { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header class="nav"><div class="wrap wide"><a class="brand" href="/" aria-label="Noteblock home"><img src="/favicon.svg" alt=""><span class="wordmark">noteblock<span>.ai</span></span></a></div></header>
+<main class="wrap wide">
+<h1>Pricing</h1>
+<p class="lead">The app is free and open source. Pro adds more published sites and more Noteblock AI.</p>
+
+<div class="plans">
+  <section class="plan">
+    <h2>Free</h2>
+    <p class="price">$0</p>
+    <p class="billed"></p>
+    <ul>
+      <li>The app on Mac and Windows</li>
+      <li>Unlimited local pages</li>
+      <li>Page backends</li>
+      <li>CLI and MCP for your agents</li>
+      <li>Git sync to your own repo</li>
+      <li>3 published sites</li>
+      <li>25 Noteblock AI credits a month</li>
+    </ul>
+    <a class="btn" href="/download">Download</a>
+  </section>
+  <section class="plan pro">
+    <h2>Pro</h2>
+    <p class="price">$5 <small>a month</small></p>
+    <p class="billed">Billed yearly at $60</p>
+    <ul>
+      <li>Everything in Free</li>
+      <li>1,000 published sites</li>
+      <li>50 MB per site, 5 GB total</li>
+      <li>250 Noteblock AI credits a month</li>
+    </ul>
+    <a class="btn dark" href="https://noteblock.ai/billing/upgrade?item=pro-year">Get Pro</a>
+    <a class="alt" href="https://noteblock.ai/billing/upgrade?item=pro-month">or $7 month to month</a>
+  </section>
+</div>
+
+</main>
+<footer class="foot"><div class="wrap wide"><span>Noteblock</span><span class="foot-links"><a href="/pricing">Pricing</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></span></div></footer>
+</body>
+</html>

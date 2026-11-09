@@ -1,0 +1,869 @@
+/* Quire page theme: Ledger. Served at quire://runtime/theme.css into every page.
+ *
+ * Tokens are CSS variables (--q-*) so page apps can use them. Page typography/layout rules
+ * are wrapped in :where() (zero specificity), so any page style wins, and they are skipped
+ * entirely when the page sets <body data-q-theme="none">. The embed card and editor chrome
+ * classes (.q-embed, .q-toolbar, .q-slash, …) always apply: the runtime draws them.
+ */
+
+@font-face {
+  font-family: "Geist";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("quire://runtime/fonts/geist-latin-wght-normal.woff2") format("woff2-variations"),
+       url("quire://runtime/fonts/geist-latin-wght-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Geist";
+  font-style: italic;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("quire://runtime/fonts/geist-latin-wght-italic.woff2") format("woff2-variations"),
+       url("quire://runtime/fonts/geist-latin-wght-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Geist Mono";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("quire://runtime/fonts/geist-mono-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Geist Mono";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 500;
+  src: url("quire://runtime/fonts/geist-mono-latin-500-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Geist Mono";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 600;
+  src: url("quire://runtime/fonts/geist-mono-latin-600-normal.woff2") format("woff2");
+}
+
+:root {
+  --q-ground: #FFFFFF;
+  --q-raised: #F3F4F6;
+  --q-line: #E4E6EA;
+  --q-ink: #15171C;
+  --q-muted: #5B6270;
+  --q-faint: #8A909C;
+  --q-accent: #3451D1;
+  --q-accent-soft: #EEF1FD;
+  --q-accent-ink: #2A43B0;
+  --q-accent-line: #C9D2F6;
+  --q-selection: #D6DEFB;
+  --q-warn: #9A5B00;
+  --q-warn-soft: #FFF6E5;
+  --q-chrome: #15171C;
+  --q-chrome-hover: #2A2D35;
+  --q-chrome-active: #2A3550;
+  --q-chrome-line: #3A3E47;
+  --q-radius: 8px;
+  --q-radius-lg: 10px;
+  --q-shadow-menu: 0 12px 32px rgba(15, 20, 30, 0.12);
+  --q-shadow-toolbar: 0 8px 24px rgba(15, 20, 30, 0.2);
+  --q-font: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --q-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  /* Page typography; the app overrides these with the user's editor settings. */
+  --q-text-size: 16px;
+  --q-measure: 700px;
+  --q-page-font: var(--q-font);
+}
+
+/* ---------- Page typography (opt out with body[data-q-theme="none"]) ---------- */
+
+:where(html):has(> body:not([data-q-theme="none"])) {
+  background: var(--q-ground);
+}
+:where(body:not([data-q-theme="none"])) {
+  box-sizing: content-box;
+  max-width: var(--q-measure);
+  margin: 0 auto;
+  padding: 56px 24px 96px;
+  background: var(--q-ground);
+  color: var(--q-ink);
+  font-family: var(--q-page-font);
+  font-size: var(--q-text-size);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+:where(html.q-embedded body:not([data-q-theme="none"])) {
+  max-width: none;
+  margin: 0;
+  padding: 14px 16px;
+}
+
+:where(body:not([data-q-theme="none"])) :where(*, *::before, *::after) { box-sizing: border-box; }
+:where(body:not([data-q-theme="none"])) ::selection { background: var(--q-selection); }
+
+:where(body:not([data-q-theme="none"])) :where(h1, h2, h3, h4) { color: var(--q-ink); font-weight: 600; }
+:where(body:not([data-q-theme="none"])) :where(h1) {
+  margin: 0 0 16px;
+  font-size: 2.625em;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+:where(html.q-embedded body:not([data-q-theme="none"])) :where(h1) { font-size: 1.75em; margin-bottom: 10px; }
+:where(body:not([data-q-theme="none"])) :where(h2) {
+  margin: 36px 0 10px;
+  font-size: 1.4375em;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+:where(body:not([data-q-theme="none"])) :where(h3) { margin: 28px 0 8px; font-size: 1.125em; line-height: 1.4; }
+:where(body:not([data-q-theme="none"])) :where(h4) { margin: 22px 0 6px; font-size: 1em; line-height: 1.4; }
+/* The floating note (html.q-floating): headings are bold body text, so the note keeps its room. */
+:where(html.q-floating body:not([data-q-theme="none"])) {
+  max-width: none;
+  margin: 0;
+  padding: 12px 16px 32px;
+}
+:where(html.q-floating body:not([data-q-theme="none"])) :where(h1, h2, h3) {
+  margin: 14px 0 4px;
+  font-size: 1em;
+  font-weight: 700;
+  line-height: 1.55;
+  letter-spacing: 0;
+}
+:where(body:not([data-q-theme="none"])) :where(h1, h2, h3, h4):first-child { margin-top: 0; }
+/* Edit mode wraps each run of text in a region, which makes a heading after a non-text block the
+   region's first child. It's still not the first thing on the page, so it keeps its margin. */
+:where(html:not(.q-floating) body:not([data-q-theme="none"])) :where(* + [data-q-region]) > :where(h2):first-child { margin-top: 36px; }
+:where(html:not(.q-floating) body:not([data-q-theme="none"])) :where(* + [data-q-region]) > :where(h3):first-child { margin-top: 28px; }
+:where(html:not(.q-floating) body:not([data-q-theme="none"])) :where(* + [data-q-region]) > :where(h4):first-child { margin-top: 22px; }
+:where(html.q-floating body:not([data-q-theme="none"])) :where(* + [data-q-region]) > :where(h1, h2, h3):first-child { margin-top: 14px; }
+
+:where(body:not([data-q-theme="none"])) :where(p) { margin: 0 0 12px; }
+:where(body:not([data-q-theme="none"])) :where(a) {
+  color: var(--q-accent);
+  text-decoration: underline;
+  text-decoration-color: var(--q-accent-line);
+  text-underline-offset: 3px;
+}
+:where(body:not([data-q-theme="none"])) :where(a:hover) { color: var(--q-accent-ink); text-decoration-color: currentColor; }
+:where(body:not([data-q-theme="none"])) :where(strong, b) { font-weight: 600; }
+/* Raised and lowered text must not push its line taller than the ones around it. */
+:where(body:not([data-q-theme="none"])) :where(sup, sub) { line-height: 0; }
+
+:where(body:not([data-q-theme="none"])) :where(ul, ol) { margin: 0 0 12px; padding-left: 22px; }
+/* Two lists back to back read as one list: the editor can't set the gap between items, so
+   a file split into several lists (an outside writer, a paste) mustn't get a different one. */
+:where(body:not([data-q-theme="none"])) :where(ul + ul, ol + ol) { margin-top: -8px; }
+:where(body:not([data-q-theme="none"])) :where(li) { margin: 4px 0; }
+:where(body:not([data-q-theme="none"])) :where(li > ul, li > ol) { margin: 4px 0 0; }
+/* A loose list (<li><p>) has the same rhythm as a tight one. */
+:where(body:not([data-q-theme="none"])) :where(li > p) { margin: 0; }
+:where(body:not([data-q-theme="none"])) :where(li > p + p) { margin-top: 4px; }
+:where(body:not([data-q-theme="none"])) :where(li)::marker { color: var(--q-muted); }
+
+:where(body:not([data-q-theme="none"])) :where(blockquote) {
+  margin: 0 0 12px;
+  padding: 2px 0 2px 14px;
+  border-left: 3px solid var(--q-line);
+  color: var(--q-muted);
+}
+:where(body:not([data-q-theme="none"])) :where(blockquote > :last-child) { margin-bottom: 0; }
+
+:where(body:not([data-q-theme="none"])) :where(code, kbd, samp) {
+  font-family: var(--q-mono);
+  font-size: 0.88em;
+}
+:where(body:not([data-q-theme="none"])) :where(code) {
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: var(--q-raised);
+}
+:where(body:not([data-q-theme="none"])) :where(pre) {
+  margin: 0 0 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--q-line);
+  border-radius: var(--q-radius);
+  background: var(--q-raised);
+  font-family: var(--q-mono);
+  font-size: 0.8125em;
+  line-height: 1.55;
+  overflow-x: auto;
+  white-space: pre;
+}
+:where(body:not([data-q-theme="none"])) :where(pre code) { padding: 0; background: none; font-size: inherit; }
+
+:where(body:not([data-q-theme="none"])) :where(table) {
+  width: 100%;
+  margin: 0 0 16px;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+:where(body:not([data-q-theme="none"])) :where(th, td) {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--q-line);
+  text-align: left;
+  vertical-align: top;
+}
+:where(body:not([data-q-theme="none"])) :where(th) { font-size: 0.8125em; font-weight: 600; color: var(--q-muted); }
+:where(body:not([data-q-theme="none"])) :where(thead th) { border-bottom-color: var(--q-line); }
+
+:where(body:not([data-q-theme="none"])) :where(hr) {
+  height: 0;
+  margin: 28px 0;
+  border: 0;
+  border-top: 1px solid var(--q-line);
+}
+:where(body:not([data-q-theme="none"])) :where(img, video) { max-width: 100%; height: auto; border-radius: var(--q-radius); }
+:where(body:not([data-q-theme="none"])) :where(figure) { margin: 0 0 16px; }
+:where(body:not([data-q-theme="none"])) :where(figcaption) { margin-top: 6px; font-size: 0.8125em; color: var(--q-muted); }
+
+:where(body:not([data-q-theme="none"])) :where(button, input, select, textarea) { font: inherit; color: inherit; }
+
+/* ---------- Embed card (<quire-embed>) ---------- */
+
+quire-embed { display: block; }
+.q-embed {
+  display: block;
+  margin: 16px 0;
+  border: 1px solid var(--q-line);
+  border-radius: var(--q-radius-lg);
+  overflow: hidden;
+  background: var(--q-ground);
+  font-family: var(--q-font);
+}
+.q-embed-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 38px;
+  padding: 0 6px 0 12px;
+  border-bottom: 1px solid var(--q-line);
+  background: var(--q-raised);
+  color: var(--q-ink);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.3;
+  user-select: none;
+}
+.q-embed-title { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.q-embed-open {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 8px;
+  border-radius: 6px;
+  color: var(--q-accent-ink);
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+}
+.q-embed-open:hover { background: var(--q-accent-soft); color: var(--q-accent-ink); text-decoration: none; }
+.q-embed-frame { display: block; width: 100%; height: 72px; border: 0; background: var(--q-ground); }
+/* Auto height stops at min(70vh, 900px): the frame scrolls inside, with a fade and an Open link. */
+.q-embed-capped::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 40px;
+  background: linear-gradient(to bottom, transparent, var(--q-ground));
+  pointer-events: none;
+}
+.q-embed-more { display: none; }
+.q-embed-capped .q-embed-more {
+  display: inline-flex;
+  align-items: center;
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  z-index: 1;
+  min-height: 26px;
+  padding: 0 10px;
+  border: 1px solid var(--q-line);
+  border-radius: 999px;
+  background: var(--q-raised);
+  color: var(--q-accent-ink);
+  font-family: var(--q-font);
+  font-size: 12px;
+  font-weight: 500;
+  text-decoration: none;
+  box-shadow: var(--q-shadow-menu);
+  cursor: pointer;
+}
+.q-embed-capped .q-embed-more:hover { background: var(--q-accent-soft); text-decoration: none; }
+.q-embed-missing { padding: 12px; color: var(--q-muted); font-size: 13px; }
+.q-embed-stuck {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  color: var(--q-ink);
+  font-family: var(--q-font);
+  font-size: 13px;
+}
+.q-embed-stuck button {
+  margin-left: auto;
+  padding: 4px 10px;
+  border: 1px solid var(--q-line);
+  border-radius: var(--q-radius);
+  background: var(--q-ground);
+  color: var(--q-ink);
+  font: inherit;
+  cursor: pointer;
+}
+.q-embed-stuck button:hover { background: var(--q-raised); }
+.q-embed { position: relative; }
+.q-embed-grip { display: none; }
+html.q-edit:not(.q-readonly) .q-embed-head { cursor: default; }
+html.q-edit:not(.q-readonly) .q-embed-grip {
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 10px;
+  cursor: ns-resize;
+}
+html.q-edit:not(.q-readonly) .q-embed-grip::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 3px;
+  width: 36px;
+  height: 4px;
+  margin-left: -18px;
+  border-radius: 2px;
+  background: var(--q-line);
+  opacity: 0;
+  transition: opacity 0.12s;
+}
+html.q-edit .q-embed:hover .q-embed-grip::after,
+html.q-edit .q-embed-selected .q-embed-grip::after { opacity: 1; }
+html.q-edit .q-embed-grip:hover::after,
+html.q-resizing .q-embed-grip::after { background: var(--q-accent); }
+html.q-resizing, html.q-resizing * { cursor: ns-resize !important; user-select: none; }
+html.q-resizing iframe { pointer-events: none; }
+.q-embed.q-embed-selected {
+  border-color: var(--q-accent);
+  box-shadow: 0 0 0 3px var(--q-accent-soft);
+}
+html.q-edit [data-q-region] .q-embed.q-embed-selected:hover { outline: none; }
+.q-embed-selected .q-embed-head { background: var(--q-accent-soft); color: var(--q-accent-ink); }
+.q-menu {
+  position: fixed;
+  z-index: 2147483000;
+  display: flex;
+  flex-direction: column;
+  min-width: 170px;
+  padding: 5px;
+  border: 1px solid var(--q-line);
+  border-radius: 10px;
+  background: var(--q-ground);
+  box-shadow: var(--q-shadow-menu);
+  font-family: var(--q-font);
+}
+.q-menu-item {
+  display: flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: var(--q-ink);
+  font: 14px var(--q-font);
+  text-align: left;
+  cursor: default;
+}
+.q-menu-item:hover { background: var(--q-raised); }
+.q-menu-item.is-danger { color: #b42318; }
+.q-menu-item.is-danger:hover { background: #fdecea; }
+
+/* ---------- Editor chrome ---------- */
+
+[data-q-region] { outline: none; caret-color: var(--q-accent); }
+[data-q-region]:focus, [data-q-region]:focus-visible { outline: none; }
+html.q-edit [data-q-atomic] { border-radius: 2px; }
+html.q-edit [data-q-atomic]:hover { outline: 1.5px dashed var(--q-accent-line); outline-offset: 2px; }
+html.q-edit [data-q-made]:hover { outline-color: var(--q-line); }
+html.q-edit [data-q-region] .q-embed:hover { outline: 1.5px dashed var(--q-accent-line); outline-offset: 2px; }
+[data-q-ph] { position: relative; }
+[data-q-ph]::before {
+  content: attr(data-q-ph);
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--q-faint);
+  pointer-events: none;
+  white-space: nowrap;
+}
+li[data-q-ph]::before { left: 0; }
+
+.q-ui, .q-ui * { box-sizing: border-box; }
+.q-ui { font-family: var(--q-font); -webkit-font-smoothing: antialiased; }
+.q-ui[hidden], .q-ui [hidden] { display: none !important; }
+
+/* The root's scrollbar (runtime.js, "overlay scrollbar"): the native one is hidden so it can't move
+ * the page, and a thumb floats over the content. Scoped to the root; inner scrollers keep theirs.
+ * Both rules: Chromium ignores ::-webkit-scrollbar once a page sets scrollbar-width. */
+html.q-overlay-scroll { scrollbar-width: none; }
+html.q-overlay-scroll::-webkit-scrollbar { display: none; }
+.q-scrollbar {
+  position: fixed;
+  z-index: 2147482000; /* under the toolbar, slash menu and page menu */
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 14px;
+  pointer-events: none;
+}
+.q-scrollbar.q-armed, .q-scrollbar.q-dragging { pointer-events: auto; }
+.q-scrollbar-thumb {
+  position: absolute;
+  top: 0;
+  right: 2px;
+  width: 6px;
+  border-radius: 4px;
+  background: rgba(120, 128, 142, 0.55);
+  opacity: 0;
+  transition: opacity 180ms ease-out;
+}
+.q-scrollbar.q-on .q-scrollbar-thumb { opacity: 1; }
+.q-scrollbar.q-armed .q-scrollbar-thumb, .q-scrollbar.q-dragging .q-scrollbar-thumb {
+  width: 8px;
+  background: rgba(120, 128, 142, 0.8);
+}
+@media print {
+  .q-scrollbar { display: none !important; }
+}
+
+.q-toolbar {
+  position: fixed;
+  z-index: 2147483000;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  border-radius: var(--q-radius-lg);
+  background: var(--q-chrome);
+  color: #FFFFFF;
+  box-shadow: var(--q-shadow-toolbar);
+  font-size: 13px;
+  line-height: 1;
+}
+.q-toolbar button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 32px;
+  margin: 0;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.q-toolbar button:hover { background: var(--q-chrome-hover); }
+.q-toolbar button[aria-pressed="true"] { background: var(--q-chrome-active); }
+.q-toolbar .q-tb-bold { font-weight: 700; font-size: 14px; }
+.q-toolbar .q-tb-italic { font-style: italic; font-size: 14px; font-family: Georgia, serif; }
+.q-toolbar .q-tb-sep { width: 1px; height: 18px; margin: 0 4px; background: var(--q-chrome-line); }
+.q-toolbar .q-tb-link-form { display: flex; align-items: center; gap: 2px; }
+.q-toolbar input.q-tb-link-input {
+  width: 220px;
+  height: 30px;
+  margin: 0 2px 0 0;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 6px;
+  outline: none;
+  background: #23262E;
+  color: #FFFFFF;
+  font: inherit;
+  font-size: 13px;
+}
+.q-toolbar input.q-tb-link-input::placeholder { color: #8A909C; }
+
+.q-slash {
+  position: fixed;
+  z-index: 2147483000;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 320px;
+  max-height: 340px;
+  overflow: hidden;
+  padding: 6px;
+  border: 1px solid var(--q-line);
+  border-radius: 12px;
+  background: var(--q-ground);
+  color: var(--q-ink);
+  box-shadow: var(--q-shadow-menu);
+  font-size: 14px;
+  line-height: 1.3;
+}
+.q-slash-group { padding: 8px 10px 2px; color: var(--q-muted); font-size: 12px; font-weight: 600; }
+.q-slash-group:first-child { padding-top: 6px; }
+.q-slash-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 40px;
+  padding: 0 10px;
+  border-radius: var(--q-radius);
+  cursor: pointer;
+  user-select: none;
+}
+.q-slash-item[aria-selected="true"] { background: var(--q-accent-soft); }
+.q-slash-icon {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--q-line);
+  border-radius: 6px;
+  background: var(--q-ground);
+  color: var(--q-muted);
+}
+.q-slash-item[aria-selected="true"] .q-slash-icon { border-color: var(--q-accent-line); color: var(--q-accent); }
+.q-slash-text { display: flex; flex-direction: column; min-width: 0; flex: 1 1 auto; }
+.q-slash-label { font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.q-slash-hint { color: var(--q-muted); font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.q-slash-key { flex: none; color: var(--q-muted); font-family: var(--q-mono); font-size: 11px; }
+.q-slash-page .q-slash-text { flex-direction: row; align-items: baseline; gap: 8px; }
+.q-slash-page .q-slash-label { flex: 0 1 auto; }
+.q-slash-page .q-slash-hint { flex: 1 1 0; min-width: 0; }
+.q-slash-search {
+  display: block; box-sizing: border-box; width: 100%; margin: 2px 0 6px; height: 32px; padding: 0 10px;
+  border: 1px solid var(--q-line); border-radius: 6px; background: var(--q-ground); color: inherit;
+  font: inherit; font-size: 13px; outline: none;
+}
+.q-slash-search[hidden] { display: none; }
+.q-slash-list { display: flex; flex-direction: column; gap: 2px; flex: 1 1 auto; min-height: 0; overflow-y: auto; }
+.q-slash-group, .q-slash-search { flex: none; }
+.q-slash-search:focus { border-color: var(--q-accent-line); box-shadow: 0 0 0 3px var(--q-accent-soft); }
+.q-slash-empty { padding: 10px; color: var(--q-muted); font-size: 13px; }
+
+/* ---------- Noteblock AI: /ai (runtime.js, docs/ai.md; design: build-ai2.mjs boards 11–14) ---------- */
+
+/* The pill: on the AI line before sending (".q-ai-pill" inside a text block, contenteditable=false)
+ * and at the start of a marker's line. */
+.q-ai-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 24px;
+  margin-right: 8px;
+  padding: 0 8px;
+  border-radius: 6px;
+  background: var(--q-accent-soft);
+  color: var(--q-accent);
+  font-family: var(--q-font);
+  font-size: 13.5px;
+  font-weight: 500;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: 0;
+  white-space: nowrap;
+  vertical-align: 1px;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: default;
+}
+.q-ai-pill svg { display: block; flex: none; width: 13px; height: 13px; }
+.q-ai-pill-icon { display: flex; align-items: center; }
+.q-ai-pill .q-ai-spin { width: 12px; height: 12px; }
+
+/* The AI line: the block itself is drawn as a field. The "Ask AI" label sits in its left
+ * padding (::before), the placeholder or ↵ in ::after, so the request is plain editable text. */
+[data-q-ai-line] {
+  position: relative;
+  /* One fixed line box so the label and placeholder (absolutely placed) line up with the text. */
+  min-height: 26px;
+  line-height: 26px;
+  padding: 7px 44px 7px 98px !important;
+  border: 1px solid var(--q-accent-line);
+  border-radius: 10px;
+  background: var(--q-ground, #fff);
+  box-shadow: 0 0 0 3px var(--q-accent-soft);
+  caret-color: var(--q-accent);
+}
+[data-q-ai-line]::before {
+  content: "Ask AI";
+  position: absolute;
+  left: 7px;
+  top: 8px;
+  display: flex;
+  align-items: center;
+  height: 24px;
+  padding: 0 8px 0 25px;
+  border-radius: 6px;
+  background: var(--q-accent-soft) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none' stroke='%233451D1' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='M8 2v3M8 11v3M2 8h3M11 8h3M4 4l1.5 1.5M10.5 10.5L12 12M12 4l-1.5 1.5M5.5 10.5L4 12'/%3E%3C/svg%3E") no-repeat 7px center / 13px 13px;
+  color: var(--q-accent);
+  font-family: var(--q-font);
+  font-size: 13.5px;
+  font-weight: 500;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: 0;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+[data-q-ai-line]::after {
+  content: "↵";
+  position: absolute;
+  right: 14px;
+  top: 7px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  color: var(--q-faint);
+  font-family: var(--q-font);
+  font-size: 13px;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+[data-q-ai-line][data-q-ai-empty]::after {
+  content: "Describe what to build · esc to cancel";
+  left: 98px;
+  right: auto;
+  font-family: var(--q-page-font);
+  font-size: var(--q-text-size);
+}
+
+
+/* The marker <div data-q-ai> holds the request as text, which only the file needs: hidden
+ * here, and the line (data-q-ui) drawn in its place. */
+[data-q-ai] {
+  display: block;
+  margin: 12px 0;
+  font-size: 0;
+  line-height: 0;
+  color: transparent;
+  user-select: none;
+}
+.q-ai-card {
+  display: block;
+  border-radius: 6px;
+  color: var(--q-ink);
+  font-family: var(--q-page-font);
+  font-size: var(--q-text-size);
+  line-height: 1.6;
+  text-align: left;
+}
+html.q-edit [data-q-ai][data-q-atomic]:hover { outline: none; }
+html.q-edit:not(.q-readonly) [data-q-ai]:hover .q-ai-card { outline: 1.5px dashed var(--q-accent-line); outline-offset: 4px; }
+[data-q-ai][data-q-ai-selected] .q-ai-card { outline: 2px solid var(--q-accent); outline-offset: 4px; }
+
+.q-ai-line { overflow-wrap: anywhere; }
+.q-ai-prompt { color: var(--q-muted); }
+.q-ai-spin { display: block; animation: q-ai-spin 0.9s linear infinite; }
+@keyframes q-ai-spin { to { transform: rotate(360deg); } }
+
+[data-q-ai-state="error"] .q-ai-pill,
+[data-q-ai-state="interrupted"] .q-ai-pill {
+  background: var(--q-warn-soft);
+  color: var(--q-warn);
+}
+[data-q-ai-state="stopped"] .q-ai-pill,
+[data-q-ai-state="offline"] .q-ai-pill {
+  background: var(--q-raised);
+  color: var(--q-muted);
+}
+
+/* Stop / Retry / Back to text: links at the end of the line, shown per state. */
+.q-ai-link {
+  display: none;
+  margin: 0 0 0 10px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--q-accent);
+  font-family: var(--q-font);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: inherit;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.q-ai-link:hover { color: var(--q-accent-ink); text-decoration: underline; text-underline-offset: 2px; }
+.q-ai-link:disabled { opacity: 0.6; text-decoration: none; cursor: default; }
+.q-ai-link:focus-visible { outline: 2px solid var(--q-accent); outline-offset: 2px; border-radius: 3px; }
+.q-ai-back { margin-left: 12px; color: var(--q-muted); font-weight: 400; }
+.q-ai-back:hover { color: var(--q-ink); }
+[data-q-ai-state="running"] .q-ai-stop,
+[data-q-ai-state="checking"] .q-ai-stop,
+[data-q-ai-state="stopping"] .q-ai-stop,
+[data-q-ai-state="error"] .q-ai-retry,
+[data-q-ai-state="interrupted"] .q-ai-retry,
+[data-q-ai-state="stopped"] .q-ai-retry,
+html.q-edit:not(.q-readonly) [data-q-ai-state="error"] .q-ai-back,
+html.q-edit:not(.q-readonly) [data-q-ai-state="interrupted"] .q-ai-back,
+html.q-edit:not(.q-readonly) [data-q-ai-state="stopped"] .q-ai-back,
+html.q-edit:not(.q-readonly) [data-q-ai-state="offline"] .q-ai-back { display: inline; }
+
+/* The reason (error, interrupted) or the current step, small, under the line. */
+.q-ai-status { margin-top: 2px; color: var(--q-muted); font-family: var(--q-font); font-size: 12.5px; line-height: 1.45; overflow-wrap: anywhere; }
+
+/* The code peek: two lines, left rule, faded top. */
+.q-ai-preview {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 38px;
+  margin: 8px 0 0 2px;
+  padding-left: 12px;
+  border-left: 2px solid var(--q-accent-line);
+  overflow: hidden;
+  color: var(--q-faint);
+  font-family: var(--q-mono);
+  font-size: 12px;
+  line-height: 1.55;
+  white-space: pre;
+  -webkit-mask-image: linear-gradient(transparent, #000 50%);
+  mask-image: linear-gradient(transparent, #000 50%);
+}
+.q-ai-preview[hidden], .q-ai-status[hidden] { display: none; }
+
+/* Blocks a job changed, for a few seconds after the reload: a short accent rule on the left. */
+[data-q-ai-changed] { position: relative; }
+[data-q-ai-changed]::after {
+  content: "";
+  position: absolute;
+  left: -14px;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  border-radius: 2px;
+  background: var(--q-accent);
+  pointer-events: none;
+  animation: q-ai-changed 3s ease-out forwards;
+}
+@keyframes q-ai-changed {
+  0%, 70% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .q-ai-spin { animation: none; }
+  [data-q-ai-changed]::after { animation: none; }
+}
+
+/* GFM task lists: checkbox instead of a bullet */
+:where(body:not([data-q-theme="none"])) li:has(> input[type="checkbox"]) { list-style: none; margin-left: -1.25em; }
+:where(body:not([data-q-theme="none"])) li > input[type="checkbox"] { margin: 0 0.5em 0 0; accent-color: var(--q-accent); vertical-align: -2px; }
+
+/* Links follow on click (runtime.js), in the editor too, so they look clickable there. */
+a[href],
+html.q-edit [contenteditable] a[href] {
+  cursor: pointer;
+}
+
+/* ---------- Dropped and resized images (runtime.js) ---------- */
+
+.q-drop-mark {
+  position: absolute;
+  z-index: 2147482000;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--q-accent);
+  pointer-events: none;
+}
+.q-img-box {
+  position: absolute;
+  z-index: 2147482000;
+  box-sizing: border-box;
+  border: 2px solid var(--q-accent);
+  border-radius: 2px;
+  pointer-events: none;
+}
+.q-img-handle {
+  position: absolute;
+  right: -7px;
+  bottom: -7px;
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--q-accent);
+  border-radius: 50%;
+  background: var(--q-ground, #fff);
+  cursor: nwse-resize;
+  pointer-events: auto;
+  touch-action: none;
+}
+
+/* ---------- Script-made content (not editable) ---------- */
+
+.q-made-notice {
+  position: fixed;
+  z-index: 2147483000;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: calc(100vw - 32px);
+  padding: 6px 6px 6px 12px;
+  border-radius: var(--q-radius-lg);
+  background: var(--q-chrome);
+  color: #FFFFFF;
+  font-size: 13px;
+  line-height: 1.35;
+  box-shadow: var(--q-shadow-toolbar);
+}
+.q-made-notice button {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: inherit;
+  font: 16px/1 var(--q-font);
+  opacity: .7;
+  cursor: default;
+}
+.q-made-notice button:hover { opacity: 1; background: rgba(255,255,255,.12); }
+
+/* Find in page (⌘F): the runtime's CSS Custom Highlights, so the document itself is untouched.
+ * Not under :where(…data-q-theme…): the app draws them on every page. */
+::highlight(q-find) {
+  background-color: #FFF1B8;
+  color: inherit;
+}
+::highlight(q-find-active) {
+  background-color: #FFC53D;
+  color: #15171C;
+}
+
+/* Shortcut spellings per OS (runtime.js puts q-os-pc on <html> off the Mac). */
+html.q-os-pc .q-mac,
+html:not(.q-os-pc) .q-pc {
+  display: none;
+}
+
+/* The sent request keeps the AI line's field shape while it builds or fails, so the line you
+ * typed into and the line that's working look like the same thing. */
+[data-q-ai] .q-ai-card {
+  padding: 7px 12px 7px 7px;
+  border: 1px solid var(--q-accent-line);
+  border-radius: 10px;
+  background: var(--q-ground, #fff);
+}
+[data-q-ai][data-q-ai-state="error"] .q-ai-card,
+[data-q-ai][data-q-ai-state="interrupted"] .q-ai-card {
+  border-color: var(--q-warn-line, #F0D9AE);
+  background: var(--q-warn-soft);
+}
