@@ -1,6 +1,6 @@
 {
   "name": "quire",
-  "version": "0.3.5",
+  "version": "0.3.7",
   "private": true,
   "description": "Notes where every page is a little HTML app",
   "license": "FSL-1.1-ALv2",

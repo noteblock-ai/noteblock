@@ -177,8 +177,24 @@ function RenameRow({ node, depth, ctx }) {
 function Rows({ nodes, depth, ctx }) {
   const { creating, parentKey } = ctx;
   const here = creating && creating.parent === parentKey ? creating : null;
+  // The name field sits where the new row will land (App.jsx newPageAt): after the anchor row,
+  // at the end, or first.
+  let at = 0;
+  if (here?.place?.anchor) {
+    const i = nodes.findIndex((n) => n.path.split("/").pop() === here.place.anchor);
+    at = i < 0 ? nodes.length : i + 1;
+  } else if (here?.place?.end) at = nodes.length;
+  const row = (n) =>
+    n.kind === "folder" ? (
+      <FolderRow key={n.path} node={n} depth={depth} ctx={ctx} />
+    ) : n.kind === "file" ? (
+      <PlainFileRow key={n.path} node={n} depth={depth} ctx={ctx} />
+    ) : (
+      <PageRow key={n.path} node={n} depth={depth} ctx={ctx} />
+    );
   return (
     <>
+      {nodes.slice(0, at).map(row)}
       {here ? (
         <NewRow
           key={"new:" + here.kind + ":" + here.seq}
@@ -190,15 +206,7 @@ function Rows({ nodes, depth, ctx }) {
           onCancel={ctx.onCreateCancel}
         />
       ) : null}
-      {nodes.map((n) =>
-        n.kind === "folder" ? (
-          <FolderRow key={n.path} node={n} depth={depth} ctx={ctx} />
-        ) : n.kind === "file" ? (
-          <PlainFileRow key={n.path} node={n} depth={depth} ctx={ctx} />
-        ) : (
-          <PageRow key={n.path} node={n} depth={depth} ctx={ctx} />
-        ),
-      )}
+      {nodes.slice(at).map(row)}
     </>
   );
 }

@@ -152,11 +152,17 @@ export default function App() {
 const byName = new Intl.Collator(undefined, { numeric: true, sensitivity: "base" });
 
 /** The tree with a just-created page in its place (the sort listTree uses), for the frame before the next read. */
-function withNewNode(nodes, parent, node) {
+function withNewNode(nodes, parent, node, place) {
   const name = node.path.split("/").pop();
   const add = (list) => {
     if (list.some((n) => n.path === node.path)) return list;
-    const at = list.findIndex((n) => n.kind !== "folder" && byName.compare(n.path.split("/").pop(), name) > 0);
+    let at;
+    if (place?.anchor) {
+      at = list.findIndex((n) => n.path.split("/").pop() === place.anchor);
+      at = at < 0 ? list.length : at + 1;
+    } else if (place?.start) at = 0;
+    else if (place?.end) at = list.length;
+    else at = list.findIndex((n) => n.kind !== "folder" && byName.compare(n.path.split("/").pop(), name) > 0);
     const next = [...list];
     next.splice(at < 0 ? list.length : at, 0, node);
     return next;
@@ -165,7 +171,7 @@ function withNewNode(nodes, parent, node) {
   return nodes.map((n) => {
     if (n.kind !== "folder") return n;
     if (n.path === parent) return { ...n, children: add(n.children || []) };
-    return parent.startsWith(n.path + "/") ? { ...n, children: withNewNode(n.children || [], parent, node) } : n;
+    return parent.startsWith(n.path + "/") ? { ...n, children: withNewNode(n.children || [], parent, node, place) } : n;
   });
 }
 
@@ -591,7 +597,7 @@ function Shell({ api }) {
     on("onMenu", (arg) => {
       const action = typeof arg === "string" ? arg : arg?.action || arg?.type;
       if (embed && EMBED_BLOCKED.has(action)) return;
-      if (action === "new-page") startCreate("page", createIn());
+      if (action === "new-page") startNewPage();
       else if (action === "new-folder") startCreate("folder", createIn());
       else if (action === "new-from-template") setTemplateFor({ folder: createIn() });
       else if (action === "settings") setSettingsOpen(true);
@@ -697,6 +703,21 @@ function Shell({ api }) {
     if (f === "" || (f && findNode(treeRef.current, f)?.kind === "folder")) return f;
     return parentPath(selectedRef.current || "");
   }, []);
+
+  // Where New page goes: right under the focused row. A focused folder gets it as its first row,
+  // a selected page gets it next to it, and with nothing focused it goes at the bottom of the
+  // top level. `place` is what core/order.mjs records in the folder's order.
+  const newPageAt = useCallback(() => {
+    const f = embed ? null : folderFocusRef.current;
+    if (f && findNode(treeRef.current, f)?.kind === "folder") return { parent: f, place: { start: true } };
+    const sel = selectedRef.current || "";
+    if (f !== "" && sel && findNode(treeRef.current, sel)) return { parent: parentPath(sel), place: { anchor: sel.split("/").pop() } };
+    return { parent: embed ? embedFolder : "", place: { end: true } };
+  }, []);
+  const startNewPage = useCallback(() => {
+    const { parent, place } = newPageAt();
+    startCreate("page", parent, { place });
+  }, [newPageAt]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const selectFile = useCallback(
     (page, file) => {
@@ -812,9 +833,9 @@ function Shell({ api }) {
       } else {
         // One commit: the name field becomes the row and the page opens with it. The tree read
         // that follows only confirms it, and on a big vault it isn't quick.
-        const node = await api.createPage(path, { format: "html" });
+        const node = await api.createPage(path, { format: "html", place: here?.place || null });
         setCreating(null);
-        if (node) setTree((t) => withNewNode(t, parent, node));
+        if (node) setTree((t) => withNewNode(t, parent, node, here?.place));
         select(node?.path || path);
         refreshTree();
       }
@@ -1900,7 +1921,7 @@ function Shell({ api }) {
 
   const commands = useMemo(() => {
     const list = [
-      { id: "new-page", label: "New page", accelerator: accel("new-page"), run: () => startCreate("page", createIn()) },
+      { id: "new-page", label: "New page", accelerator: accel("new-page"), run: () => startNewPage() },
       { id: "new-from-template", label: "New page from template…", accelerator: accel("new-from-template"), run: () => setTemplateFor({ folder: createIn() }) },
       { id: "new-folder", label: "New folder", accelerator: accel("new-folder"), run: () => startCreate("folder", createIn()) },
       ...(canBack ? [{ id: "back", label: "Go back", accelerator: accel("back"), run: () => goVisitRef.current(-1) }] : []),
@@ -2215,7 +2236,7 @@ function Shell({ api }) {
           onCreateSubmit={onCreateSubmit}
           onCreateCancel={() => setCreating(null)}
           onContextMenu={onContextMenu}
-          onNew={(kind) => startCreate(kind, createIn())}
+          onNew={(kind) => (kind === "page" ? startNewPage() : startCreate(kind, createIn()))}
           api={api}
           showFiles={showFiles}
           onShowFiles={setShowFiles}

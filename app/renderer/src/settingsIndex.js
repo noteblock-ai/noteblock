@@ -9,6 +9,7 @@ import { words } from "./platform.js";
 import { BRAND } from "../../../core/brand.mjs";
 
 export const SECTION_LABELS = {
+  account: "Account",
   vault: "Vault",
   editor: "Editor",
   sync: "Sync",
@@ -21,6 +22,7 @@ export const SECTION_LABELS = {
   floating: "Floating note",
   templates: "Templates",
   activity: "Activity & limits",
+  feedback: "Feedback",
 };
 
 const S = SECTION_LABELS;
@@ -28,6 +30,7 @@ const LIMITS_CTX = `${S.activity} › Limits`;
 
 export const SETTINGS_INDEX = [
   // Sections
+  { id: "account", tab: "account", page: true, label: S.account, context: "Section", keywords: ["profile", "sign out", "log out", "logout", "sign in", "login", "email", "delete account"] },
   { id: "vault", tab: "vault", page: true, label: S.vault, context: "Section", keywords: ["folder", "location", "notes", "library"] },
   { id: "editor", tab: "editor", page: true, label: S.editor, context: "Section", keywords: ["appearance", "typing", "writing", "text"] },
   { id: "sync", tab: "sync", page: true, label: S.sync, context: "Section", keywords: ["git", "github", "backup", "remote", "repo"] },
@@ -87,6 +90,10 @@ export const SETTINGS_INDEX = [
   // Publishing
   { id: "publishing.account", tab: "publishing", label: `${BRAND.name} account`, context: S.publishing, keywords: ["sign in", "sign out", "login", "log out", "publish", "sites"] },
   // Plan (PlanPane.jsx)
+  { id: "account.profile", tab: "account", label: "Signed in as", context: S.account, keywords: ["sign out", "log out", "logout", "switch account", "profile", "email"] },
+  { id: "feedback", tab: "feedback", page: true, label: S.feedback, context: "Section", keywords: ["support", "help", "contact", "email", "bug", "report", "idea", "feature request"] },
+  { id: "feedback.email", tab: "feedback", label: "Email support", context: S.feedback, keywords: ["support", "contact", "bug", "help"] },
+  { id: "account.plan", tab: "account", label: "Manage billing", context: S.account, keywords: ["billing", "subscription", "cancel", "invoices", "card", "plan"] },
   { id: "plan.current", tab: "plan", label: "Plan", context: S.plan, keywords: ["pro", "free", "subscription", "renew", "cancel", "manage billing", "invoices", "card"] },
   { id: "plan.upgrade", tab: "plan", near: "plan.current", label: "Upgrade to Pro", context: S.plan, keywords: ["pro", "yearly", "monthly", "subscribe", "pricing"] },
   { id: "plan.credits", tab: "plan", label: "AI credits", context: S.plan, keywords: ["noteblock ai", "usage", "limit", "credits left"] },

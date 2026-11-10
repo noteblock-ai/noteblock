@@ -83,6 +83,12 @@ opening it later is one command:
 - To open it: `gh repo edit noteblock-ai/noteblock --visibility public --accept-visibility-change-consequences`,
   keep Actions off on it, and put the GitHub icon back in the landing page header.
 
+## Update, 2026-11-10: public, source available
+
+The mirror is public again as source available under FSL-1.1-ALv2, never described as "open
+source" (FSL is not OSI-approved). Actions stay off on it; the landing page header has the GitHub
+icon again and the pricing page links the source.
+
 ## What to build
 
 - [x] Sweep the git history for secrets and personal data (vault contents in examples,

@@ -1049,6 +1049,26 @@ export function registerIpc(ipcMain, ctx) {
     return null;
   });
 
+  // A new row's place in its folder's order (core/order.mjs): after a named row, first, or last.
+  const placeNewRow = (vault, rowPath, place) => {
+    if (!place || typeof place !== "object") return;
+    const name = rowPath.split("/").pop();
+    const parent = rowPath.split("/").slice(0, -1).join("/");
+    const names = listFolder(vault, parent).map((n) => n.path.split("/").pop());
+    const others = names.filter((n) => n !== name);
+    let next;
+    if (typeof place.anchor === "string" && others.includes(place.anchor)) next = placeName(names, name, place.anchor, true);
+    else if (place.start) next = [name, ...others];
+    else if (place.end) next = [...others, name];
+    else return;
+    const dir = parent ? pathDir(vault, parent) : vault;
+    markSelfWrite(path.join(dir, ORDER_FILE));
+    writeOrder(dir, next);
+    try {
+      commitPaths(vault, `Reorder ${parent || "vault"}`, [parent ? `${parent}/${ORDER_FILE}` : ORDER_FILE]);
+    } catch {}
+  };
+
   handle("quire:createPage", (pagePath, opts = {}) => {
     const vault = ctx.getVault();
     // The window opens the page itself. Unmarked, the watcher takes these writes for an outside
@@ -1065,6 +1085,7 @@ export function registerIpc(ipcMain, ctx) {
       writeManifest(node.dir, m);
       node = findPage(vault, node.path);
     }
+    placeNewRow(vault, node.path, opts && opts.place);
     scheduleAutosave(vault, node.path);
     return publicNode(node);
   });

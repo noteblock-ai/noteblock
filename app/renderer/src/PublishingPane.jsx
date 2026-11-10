@@ -16,7 +16,7 @@ export function StableLabel({ value, options }) {
   );
 }
 
-function Avatar({ user }) {
+export function Avatar({ user }) {
   const [broken, setBroken] = useState(false);
   const letter = (user?.name || user?.email || "?").trim().charAt(0).toUpperCase();
   if (user?.image && !broken) return <img className="pub-avatar" src={user.image} alt="" onError={() => setBroken(true)} />;

@@ -6,6 +6,8 @@ import ActivityPane from "./ActivityPane.jsx";
 import ConfirmDialog from "./ConfirmDialog.jsx";
 import PublishingPane from "./PublishingPane.jsx";
 import AiPane from "./AiPane.jsx";
+import AccountPane from "./AccountPane.jsx";
+import FeedbackPane from "./FeedbackPane.jsx";
 import PlanPane from "./PlanPane.jsx";
 import DebugPane from "./DebugPane.jsx";
 import ToolsPane from "./ToolsPane.jsx";
@@ -1517,7 +1519,7 @@ export default function Settings({ api, prefs, onPrefs, initialTab = "vault", sh
               ×
             </button>
           </div>
-          {tab === "vault" ? <VaultPane api={api} onVaultChanged={onVaultChanged} prefs={prefs} onPrefs={onPrefs} /> : tab === "editor" ? <EditorPane api={api} prefs={prefs} onPrefs={onPrefs} /> : tab === "sync" ? <SyncPane api={api} /> : tab === "ai" ? <AiPane api={api} shortcuts={shortcuts} onOpenTab={setTab} />: tab === "publishing" ? <PublishingPane api={api} /> : tab === "plan" ? <PlanPane api={api} /> : tab === "debug" && debug ? <DebugPane api={api} page={page} onOpenTab={setTab} onOpenAi={() => (onOpenAi ? onOpenAi() : onClose())} onClose={onClose} /> : tab === "tools" ? <ToolsPane api={api} /> : tab === "import" ? <ImportPane api={api} folders={folders} onOpenPage={onOpenPage} sub={importSub} onSub={openImport} /> : tab === "templates" ? <TemplatesPane api={api} page={page} /> : tab === "floating" ? (
+          {tab === "account" ? <AccountPane api={api} onOpenTab={setTab} /> : tab === "feedback" ? <FeedbackPane /> : tab === "vault" ? <VaultPane api={api} onVaultChanged={onVaultChanged} prefs={prefs} onPrefs={onPrefs} /> : tab === "editor" ? <EditorPane api={api} prefs={prefs} onPrefs={onPrefs} /> : tab === "sync" ? <SyncPane api={api} /> : tab === "ai" ? <AiPane api={api} shortcuts={shortcuts} onOpenTab={setTab} />: tab === "publishing" ? <PublishingPane api={api} /> : tab === "plan" ? <PlanPane api={api} /> : tab === "debug" && debug ? <DebugPane api={api} page={page} onOpenTab={setTab} onOpenAi={() => (onOpenAi ? onOpenAi() : onClose())} onClose={onClose} /> : tab === "tools" ? <ToolsPane api={api} /> : tab === "import" ? <ImportPane api={api} folders={folders} onOpenPage={onOpenPage} sub={importSub} onSub={openImport} /> : tab === "templates" ? <TemplatesPane api={api} page={page} /> : tab === "floating" ? (
             <FloatingPane
               api={api}
               cfg={floatingCfg}
